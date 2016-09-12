@@ -1,0 +1,145 @@
+.sched
+	background: $thin-grey url('/assets/grid.svg')
+	padding: 0 0 10px 0
+	border-top: $sched-day-name-height solid $thin-grey
+	display: flex
+	.hour
+		width: 100%
+		height: $sched-hour-height+2px
+		text-align: center
+		&.minute:not(.middle)
+			height: $sched-hour-height
+	.hours
+		width: $sched-hours-width
+		flex-grow: 0
+		flex-shrink: 0
+		.hour
+			span
+				position: relative
+				display: inline-block
+			&:not(.minute)
+				font-size: 14px
+				color: $grey
+				span
+					background: $thin-grey
+					width: 30px
+					height: 30px
+					top: -15px
+					border-radius: 30px
+					line-height: 30px
+			&.middle
+				font-size: 12px
+				span
+					background: $medium-grey
+					width: 20px
+					height: 20px
+					top: -11px
+					border-radius: 20px
+					color: $white
+					line-height: 20px
+	.days
+		flex-grow: 10
+		display: flex
+		.day
+			margin-top: -$sched-day-name-height
+			box-sizing: border-box
+			flex-shrink: 0
+			flex-grow: 0
+			> .name
+				height: $sched-day-name-height
+				padding-right: $sched-hours-width
+				display: block
+				font-size: 10px
+				font-weight: bold
+				color: $grey
+				text-align: center
+				line-height: $sched-day-name-height
+				text-transform: uppercase
+				letter-spacing: 1px
+			.courses
+				padding-right: $sched-hours-width
+				flex-wrap: wrap
+				display: flex
+				flex-direction: row
+				justify-content: flex-end
+				.course
+					width: 100%
+					padding: 0 1px
+					box-sizing: border-box
+					flex-shrink: 0
+					z-index: 2
+					position: relative
+					text-align: center
+					&[data-begin-hour]
+						padding-top: 2px
+					@for $duration from 1 through 12*60/15
+						&[data-duration="#{$duration}"]
+							height: ($sched-hour-height+1)*$duration
+					@for $parallel-courses from 2 through 7
+						&[data-parallel-courses="#{$parallel-courses}"]
+							$width: 100%/$parallel-courses
+							width: $width
+							@for $parallel-factor from 2 through 5
+								&[data-parallel-factor="#{$parallel-factor}"]
+									width: $width*$parallel-factor
+					&[data-negative="0"]
+						margin-right: auto
+					@for $negative from 1 through 12*60/15
+						&[data-negative="#{$negative}"]
+							margin-top: -($sched-hour-height+1)*$negative
+					.content
+						background: rgb(160,160,160)
+						height: 100%
+						border-radius: 10px
+						display: flex
+						flex-direction: column
+						.name
+							padding: 10px
+							font-size: 12px
+							word-wrap: break-word
+							color: transparentize($white, 0.1)
+							display: flex
+							flex-grow: 1
+							align-items: center
+							span
+								width: 100%
+								display: block
+						.infos
+							background: transparentize($white, 0.8)
+							flex-grow: 0
+							border-radius: 0 0 8px 8px
+							display: flex
+							font-size: 11px
+							color: $white
+							.professors
+								padding: 10px 0
+								flex-grow: 10
+								text-align: center
+							.classroom
+								background: transparentize($white, 0.9)
+								flex-grow: 0
+								flex-shrink: 0
+								padding: 10px
+								border-radius: 0 0 9px 0
+					=wrap-infos($parallel-courses)
+						&[data-parallel-courses="#{$parallel-courses}"]
+							.content
+								.name
+									font-size: 10px
+								.infos
+									flex-direction: column
+									.professors, .classroom
+										width: 100%
+										flex-grow: 10
+										flex-shrink: 0
+										font-size: 10px
+									.professors
+										padding: 7px 0
+									.classroom
+										padding: 7px
+					+max(large)
+						+wrap-infos(3)
+		@for $week-length from 0 through 7
+			&[data-week-length="#{$week-length}"]
+				.day
+					width: 100%/$week-length

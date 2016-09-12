@@ -1,0 +1,16 @@
+.logo
+	background: url('/assets/logo.svg') no-repeat center center / contain
+	color: transparent
+	overflow: hidden
+	display: block
+	text-align: center
+	@each $name, $size in $logo-sizes
+		&.#{$name}
+			width: $size
+			height: $logo-ratio*$size
+	+default($logo-default)
+	&.embedded
+		background: none
+		svg
+			width: 100%
+			height: 100%

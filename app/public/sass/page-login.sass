@@ -1,0 +1,103 @@
+@import load/_variables.sass
+@import load/_utils.sass
+
+@import components/_reset.sass
+@import components/_main.sass
+@import components/_result.sass
+@import components/_logo.sass
+@import components/_wrapper.sass
+@import components/_form.sass
+@import components/_spinner.sass
+
+body
+	overflow: hidden
+
+main
+	width: 100%
+	height: 312px
+	top: 50%
+	padding: 30px 0
+	margin-top: -200px
+	position: absolute
+	h1
+		display: none
+	.logo
+		margin: 0 auto
+	p
+		color: $white
+		margin: 20px 0
+		font-size: 13px
+		text-align: center
+	form
+		height: 156px
+		background: $white
+		border-radius: 13px
+		box-shadow: 0 5px 30px transparentize($black, 0.84)
+		.field
+			margin: 0 20px
+			padding: 7px 0
+			border-bottom: 1px solid $light-grey
+			&:last-of-type
+				background: $white
+				margin: 0
+				padding: 7px 20px
+				border-radius: 0 0 13px 13px
+				border-bottom: none
+				z-index: 1
+				position: relative
+			&:first-of-type
+				padding-top: 10px
+			&:last-of-type
+				padding-bottom: 10px
+			input
+				box-sizing: border-box
+				color: $grey
+				+autofill
+					+autofill-color($grey)
+					+autofill-background($white)
+				&::placeholder
+					color: transparent
+				&[value="test"]
+					color: red
+			input, label, select
+				transition: 0.2s 0.1s
+		&.logging .field
+			input, label, select
+				opacity: 0.3
+				transition: 0.2s 0.05s
+		+form-submit
+			background: transparentize($black, 0.9)
+			margin-top: -18px
+			padding: 33px 0 15px 0
+			border: 2px dashed transparentize($black, 0.7)
+			border-radius: 0 0 13px 13px
+			cursor: pointer
+			font-family: $serif
+			font-style: italic
+			color: transparentize($white, 0.3)
+			letter-spacing: 1px
+			transition: 0.1s
+			&:hover:not(.touch), &.touch
+				background: transparentize($black, 0.85)
+				color: $white
+				margin-top: -13px
+				padding: 31px 0 18px 0
+		+form-column(small)
+		+form-color($brand)
+		+max(small)
+			.field
+				label
+					display: none
+				input, select
+					width: 100%
+				input
+					&::placeholder
+						color: $brand
+
++max-height(400px)
+	body
+		overflow: auto
+	main
+		top: 0
+		margin-top: 0
+		position: relative

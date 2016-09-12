@@ -1,0 +1,32 @@
+.spinner
+	background: url('/assets/spinner.svg') no-repeat center center / contain
+	width: 64px
+	height: 64px
+	opacity: 1
+	animation: spinner-in 0.2s 1
+	&.hidden, &.init
+		opacity: 0
+	&.hidden
+		animation: spinner-out 0.2s 1
+	&.center
+		top: 50%
+		left: 50%
+		margin: -32px 0 0 -32px
+		z-index: 1000
+		position: absolute
+
+@keyframes spinner-in
+	0%
+		opacity: 0
+		transform: scale(0.3)
+	100%
+		opacity: 1
+		transform: scale(1)
+
+@keyframes spinner-out
+	0%
+		opacity: 1
+		transform: scale(1)
+	100%
+		opacity: 0
+		transform: scale(0.3)

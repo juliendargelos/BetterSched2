@@ -1,0 +1,64 @@
+=default($defaults)
+	@each $n,$default in $defaults
+		@extend #{&}.#{$default}
+
+=max-width($width)
+	@media screen and (max-width: $width)
+		@content
+
+=min-width($width)
+	@media screen and (min-width: $width)
+		@content
+
+=max-height($height)
+	@media screen and (max-height: $height)
+		@content
+
+=min-height($height)
+	@media screen and (min-height: $height)
+		@content
+
+=max($breakpoint)
+	+max-width(map-get($breakpoints, $breakpoint))
+		@content
+
+=min($breakpoint)
+	+min-width(map-get($breakpoints, $breakpoint))
+		@content
+
+=prefix($property, $value: none)
+	@each $prefix in $prefixes
+		-#{$prefix}-#{$property}: $value
+	#{$property}: $value
+
+=autofill
+	&:-webkit-autofill, &:-webkit-autofill:hover, &:-webkit-autofill:focus &:-webkit-autofill
+		@content
+
+=autofill-color($color)
+	-webkit-text-fill-color: $color !important
+
+=autofill-background($color)
+	box-shadow: 0 0 0px 1000px $color inset
+
+// =pseudo-prefix($selector, $pseudo: null)
+// 	@if $pseudo == null
+// 		@each $prefix in $prefixes
+// 			&:-#{$prefix}-#{$selector}, &::-#{$prefix}-#{$selector}
+// 				@content
+// 	@else
+// 		@each $prefix in $prefixes
+// 			#{$selector}:-#{$prefix}-#{$pseudo}, #{$selector}::-#{$prefix}-#{$pseudo}
+// 				@content
+//
+// =placeholder($selector: null)
+// 	@if $selector == null
+// 		+pseudo-prefix(input-placeholder)
+// 			@content
+// 		+pseudo-prefix(placeholder)
+// 			@content
+// 	@else
+// 		+pseudo-prefix($selector, input-placeholder)
+// 			@content
+// 		+pseudo-prefix($selector, placeholder)
+			@content

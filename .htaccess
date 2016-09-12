@@ -1,0 +1,13 @@
+Options -Indexes
+
+DirectorySlash Off
+RewriteEngine On
+
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} !^/assets/ [or]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/css/ [or]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/js/ [or]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*?)(\?.+|)$ /$2 [NC,L,QSA]
