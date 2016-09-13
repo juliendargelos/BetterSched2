@@ -4,6 +4,7 @@
 // @import components/sched
 // @import components/Spinner
 // @import components/scroll
+// @import components/header
 
 var pageSched = {
 	spinner: new Spinner,
@@ -96,14 +97,8 @@ var pageSched = {
 			self.loading = false;
 		});
 	},
-	onscroll: function() {
-		if(scroll.top <= 0 && document.body.className != 'scroll-top') document.body.className = 'scroll-top';
-		else if(scroll.top > 0 && document.body.className == 'scroll-top') document.body.className = '';
-	},
 	init: function() {
 		var self = this;
-
-		on('scroll', self.onscroll);
 
 		this.message.init();
 		this.form.init();

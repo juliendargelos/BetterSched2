@@ -8,6 +8,7 @@
 @import components/_wrapper.sass
 @import components/_sched.sass
 @import components/_spinner.sass
+@import components/_header.sass
 
 body
 	background: $thin-grey
@@ -20,40 +21,6 @@ body
 		font-size: 12px
 		text-align: center
 		color: $light-grey
-	header
-		background: $brand
-		height: 61px
-		padding: 20px
-		box-sizing: border-box
-		z-index: 10
-		position: relative
-		display: flex
-		justify-content: space-between
-		h1
-			display: none
-		svg, nav
-			flex-grow: 0
-			flex-shrink: 0
-		nav
-			height: 30px
-			a
-				height: 100%
-				margin-left: 20px
-				cursor: pointer
-				display: inline-block
-				font-size: 10px
-				font-weight: bold
-				color: $white
-				text-transform: uppercase
-				text-decoration: none
-				letter-spacing: 1px
-	&.scroll-top
-		margin-top: 61px
-		header
-			width: 100%
-			top: 0
-			left: 0
-			position: fixed
 
 form
 	margin-top: -1px

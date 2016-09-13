@@ -1,0 +1,46 @@
+body
+	header
+		background: $brand
+		height: 61px
+		padding: 20px
+		box-sizing: border-box
+		z-index: 10
+		position: relative
+		display: flex
+		align-items: center
+		justify-content: space-between
+		h1
+			display: none
+		svg, nav
+			flex-grow: 0
+			flex-shrink: 0
+		nav
+			height: 30px
+			margin-left: 20px
+			line-height: 30px
+			font-size: 0
+			a
+				height: 100%
+				margin: 0 0 0 5px
+				padding: 0 10px
+				border-radius: 3px
+				cursor: pointer
+				display: inline-block
+				font-size: 10px
+				font-weight: bold
+				color: $white
+				text-transform: uppercase
+				text-decoration: none
+				letter-spacing: 1px
+				&.selected
+					background: $white
+					color: $brand
+				&:first-of-type
+					margin-left: 0
+	&.scroll-top
+		margin-top: 61px
+		header
+			width: 100%
+			top: 0
+			left: 0
+			position: fixed

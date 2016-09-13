@@ -1,12 +1,5 @@
 <p class="ee">Coucou toi</p>
-<header>
-	<h1>BetterSched'</h1>
-	<?= svg('logo', 'logo medium embedded') ?>
-	<nav>
-		<a href="/about">À propos</>
-		<a href="/logout">Déconnexion</a>
-	</nav>
-</header>
+<?php partial('header') ?>
 <form>
 	<div>
 		<?php

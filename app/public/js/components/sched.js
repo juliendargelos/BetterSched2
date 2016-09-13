@@ -9,7 +9,7 @@ var sched = {
 	},
 	get: function(year, week, group, filter, callback) {
 		this.request.url = this.urlFor(year, week, group, filter);
-		
+
 		this.request.success(function(response) {
 			if(response.status) callback(response.status, response.sched);
 			else callback(response.status, response);

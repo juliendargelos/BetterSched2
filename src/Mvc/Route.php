@@ -58,6 +58,15 @@
 			else return false;
 		}
 
+		public static function is($controller, $action = null) {
+			if($controller instanceof self) {
+				$action = $controller->action;
+				$controller = $controller->controller;
+			}
+
+			return self::$current->controller == $controller && self::$current->action == $action;
+		}
+
 		public static function url($controller = null, $action = null, $params = []) {
 			Controller::compute($controller, $action, $params);
 

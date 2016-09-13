@@ -5,6 +5,30 @@
 	use Asset\Css;
 	use Asset\Js;
 
+	function partial($partial) {
+		static $dir = __DIR__.'/partials/';
+
+		$file = $dir.$partial.'.php';
+
+		if(file_exists($file)) {
+			include($file);
+		}
+	}
+
+	function path($controller, $action, $params = []) {
+		return Route::url($controller, $action, $params);
+	}
+
+	function current_path($controller, $action) {
+		return Route::is($controller, $action);
+	}
+
+	function alink($label, $controller, $action, $params = [], $selected = 'selected', $class = '') {
+		$class = $class.(current_path($controller, $action) ? ($class != '' ? ' ' : '').$selected : '');
+
+		echo '<a href="'.path($controller, $action, $params).'"'.($class != '' ? ' class="'.$class.'"' : '').'>'.$label.'</a>';
+	}
+
 	function css(...$files) {
 		if(count($files == 0)) $files = [Route::$current->controller.'-'.Route::$current->action];
 		return '<link rel="stylesheet" type="text/css" href="'.addcslashes(Css::file($files), '"').'">';
