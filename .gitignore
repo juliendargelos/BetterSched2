@@ -2,3 +2,5 @@
 .sassnow
 /css
 /js
+*.min.js
+*.min.css
