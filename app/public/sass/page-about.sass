@@ -23,6 +23,8 @@ main
 	border-radius: 10px
 	box-shadow: 0 20px 40px transparentize($black, 0.8)
 	overflow: hidden
+	position: relative
+	animation: screen 0.6s 1
 	.overlay
 		border-radius: 9px
 		padding: (300px-38px)/2-30px 40px 0 40px
@@ -31,7 +33,18 @@ main
 	p
 		margin: 30px auto 0 auto
 		max-width: 500px
-		color: $grey
+		color: $dark-grey
 		font-size: 13px
 		text-align: center
 		line-height: 20px
+
+@keyframes screen
+	0%
+		top: -30px
+		opacity: 0
+	25%
+		top: -30px
+		opacity: 0
+	100%
+		top: 0
+		opacity: 1
