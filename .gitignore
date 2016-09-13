@@ -1,5 +1,6 @@
 .DS_Store
 .sassnow
-/css
-/js
-/app/public/js/*.min.js
+/css/*
+/js/*
+*.min.js
+*.min.css
