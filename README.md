@@ -2,6 +2,7 @@
 
 ---
 
+<p align="right"><a href="https://codeclimate.com/github/juliendargelos/BetterSched2"><img src="https://codeclimate.com/github/juliendargelos/BetterSched2/badges/gpa.svg" alt="Code Climate"/></a></p>
 > *BetterSched' fournit une interface élégante et organisée aux étudiants des universités de Bordeaux qui désirent
 > consulter leur emploi du temps.*
 
