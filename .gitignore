@@ -2,5 +2,4 @@
 .sassnow
 /css
 /js
-*.min.js
-*.min.css
+/app/public/js/*.min.js
