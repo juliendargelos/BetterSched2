@@ -33,7 +33,7 @@ var standalone = {
 		}
 	},
 	init: function() {
-		if(this.is || true) {
+		if(this.is) {
 			document.body.setAttribute('data-standalone', true);
 			this.links.init();
 		}
