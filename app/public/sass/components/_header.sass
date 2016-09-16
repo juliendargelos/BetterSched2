@@ -58,20 +58,23 @@ body
 				&.selected
 					.svg path
 						fill: $brand
-				+max(medium)
-					width: 30px
-					opacity: 0.5
-					padding: 0
-					span
-						display: none
-					.svg
-						width: 24px
-						height: 24px
-						margin-right: 0
-					&.selected
-						background: transparent
-						opacity: 1
-						.svg path
-							fill: $white
+		+max(medium)
+			padding-right: 10px
+			padding-left: 10px
+			nav a
+				width: 30px
+				opacity: 0.5
+				padding: 0
+				span
+					display: none
+				.svg
+					width: 24px
+					height: 24px
+					margin-right: 0
+				&.selected
+					background: transparent
+					opacity: 1
+					.svg path
+						fill: $white
 	&[data-standalone] header
 		padding-top: 35px
