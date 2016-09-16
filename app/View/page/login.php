@@ -17,7 +17,7 @@
 			</div>
 			<div class="field">
 				<label for="login-username">Nom d'utilisateur</label>
-				<input id="login-username" type="text" spellcheck="false" placeholder="Nom d'utilisateur" requiered>
+				<input id="login-username" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Nom d'utilisateur" requiered>
 			</div>
 			<div class="field">
 				<label for="login-password">Mot de passe</label>
