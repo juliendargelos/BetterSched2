@@ -103,17 +103,14 @@ var Swipe = function(element) {
 		}
 	};
 
-	this.end = function() {
+	this.end = function(event) {
 		var self = this;
+
+		this.move(event);
 
 		no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
 
-		console.log(this.delta);
-
-		var delta = (this.position+this.delta*this.speedFactor)-this.currentPosition;
-		delta = delta > this.width ? this.width : (delta < -this.width ? -this.width : delta);
-
-		var page = -(this.currentPosition+delta)/this.pageWidth;
+		var page = -this.position/this.pageWidth;
 		this.page = page;
 
 		if(page != Math.round(page)) {
@@ -139,16 +136,16 @@ var Swipe = function(element) {
 				self.start(event);
 			});
 
-			on('touchend', function() {
-				if(self.type == 'touch') self.end();
+			on('touchend', function(event) {
+				if(self.type == 'touch') self.end(event);
 			});
 
-			on('touchcancel', function() {
-				if(self.type == 'touch') self.end();
+			on('touchcancel', function(event) {
+				if(self.type == 'touch') self.end(event);
 			});
 
-			on('mouseup', function() {
-				if(self.type == 'mouse') self.end();
+			on('mouseup', function(event) {
+				if(self.type == 'mouse') self.end(event);
 			});
 		}
 	};
