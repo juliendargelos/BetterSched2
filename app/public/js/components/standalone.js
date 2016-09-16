@@ -28,6 +28,7 @@ var standalone = {
 			for(var i = 0; i < this.elements.length; i++) {
 				var element = this.elements[i];
 				element.on('click', this.onclick(element));
+				element.on('touchstart', this.onclick(element));
 			}
 		}
 	},
