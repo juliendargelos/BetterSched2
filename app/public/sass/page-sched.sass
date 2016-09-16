@@ -73,10 +73,16 @@ form
 			&.visible
 				display: flex
 
-.days
+main, form, .days
 	transition: 0.3s
-	&.hidden
-		opacity: 0
+
+body.loading
+	form
+		opacity: 0.3
+	main
+		opacity: 0.3
+		.days
+			opacity: 0
 
 .spinner.center
 	position: fixed

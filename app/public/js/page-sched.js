@@ -30,7 +30,7 @@ var pageSched = {
 		}
 	},
 	set loading(v) {
-		this.days.className = v ? 'days hidden' : 'days';
+		document.body.className = v ? 'loading' : '';
 		this.message.set();
 		if(v) this.spinner.show();
 		else this.spinner.hide();
