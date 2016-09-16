@@ -3,6 +3,7 @@
 // @import components/result
 // @import components/Spinner
 // @import components/standalone
+// @import components/links
 
 var pageLogin = {
 	form: {

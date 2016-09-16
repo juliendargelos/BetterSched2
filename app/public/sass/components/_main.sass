@@ -1,3 +1,17 @@
 body
 	background: $brand
 	font-family: $sans-serif
+	&[data-loadpage]
+		background: $brand
+		opacity: 0
+		transition: 0.3s
+		animation: none
+	animation: loadpage 0.3s 1
+
+@keyframes loadpage
+	0%
+		background: $brand
+		opacity: 0
+	100%
+		background: inherit
+		opacity: 1
