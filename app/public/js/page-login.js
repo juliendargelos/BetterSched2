@@ -2,6 +2,7 @@
 // @import components/Request
 // @import components/result
 // @import components/Spinner
+// @import components/standalone
 
 var pageLogin = {
 	form: {

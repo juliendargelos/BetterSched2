@@ -5,6 +5,7 @@
 // @import components/Spinner
 // @import components/scroll
 // @import components/Swipe
+// @import components/standalone
 
 var pageSched = {
 	spinner: new Spinner,
