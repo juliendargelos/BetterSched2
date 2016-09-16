@@ -3,6 +3,7 @@
 	padding: 0 0 10px 0
 	border-top: $sched-day-name-height solid $thin-grey
 	display: flex
+	user-select: none
 	.hour
 		width: 100%
 		height: $sched-hour-height+2px
@@ -139,7 +140,19 @@
 										padding: 7px
 					+max(large)
 						+wrap-infos(3)
-		@for $week-length from 0 through 7
-			&[data-week-length="#{$week-length}"]
-				.day
-					width: 100%/$week-length
+		&.transition .day:first-of-type
+			transition: 0.2s
+		+min(normal)
+			@for $week-length from 0 through 7
+				&[data-week-length="#{$week-length}"]
+					.day
+						width: 100%/$week-length
+		+max(normal)
+			overflow: hidden
+			.day
+				width: 100vw
+				> .name
+					width: 100%
+					padding: 0
+					&:first-of-type
+						//margin-left: -$sched-hours-width

@@ -5,10 +5,13 @@
 // @import components/Spinner
 // @import components/scroll
 // @import components/header
+// @import components/Swipe
 
 var pageSched = {
 	spinner: new Spinner,
+	swipe: new Swipe,
 	days: document.getElementsByClassName('days')[0],
+	breakpoint: 1060,
 	message: {
 		element: document.createElement('span'),
 		all: [
@@ -97,8 +100,20 @@ var pageSched = {
 			self.loading = false;
 		});
 	},
+	onresize: function() {
+		if(window.innerWidth > this.breakpoint && this.swipe.position != 0) {
+			this.swipe.position = 0;
+		}
+	},
 	init: function() {
 		var self = this;
+
+		on('resize', function() {
+			self.onresize();
+		});
+
+		this.swipe.element = this.days;
+		this.swipe.init();
 
 		this.message.init();
 		this.form.init();

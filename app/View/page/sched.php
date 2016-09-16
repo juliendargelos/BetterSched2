@@ -53,7 +53,7 @@
 			<?php endif; ?>
 		<?php endfor; ?>
 	</section>
-	<section class="days"></section>
+	<section class="days" ontouchstart="pageSched.swipe.start(event);" ontouchmove="pageSched.swipe.move(event);" ontouchend="pageSched.swipe.end(event);"></section>
 </main>
 
 <footer>
