@@ -103,7 +103,7 @@ var Swipe = function(element) {
 
 		no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
 
-		var page = -(this.position+this.delta*this.speedFactor)/this.pageWidth;
+		var page = -(this.position-this.delta*this.speedFactor)/this.pageWidth;
 		this.page = page > this.page-1 ? this.page-1 : (page > this.page+1 ? this.page+1 : page);
 
 		if(page != Math.round(page)) {
