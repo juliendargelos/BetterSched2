@@ -59,6 +59,11 @@ var Swipe = function(element) {
 			get: function() {
 				return this.position/this.pageWidth;
 			}
+		},
+		currentPage: {
+			get: function() {
+				return this.currentPosition/this.pageWidth;
+			}
 		}
 	});
 
@@ -103,8 +108,13 @@ var Swipe = function(element) {
 
 		no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
 
-		var page = -(this.position+this.delta*this.speedFactor)/this.pageWidth;
-		this.page = page > this.page-1 ? this.page-1 : (page > this.page+1 ? this.page+1 : page);
+		console.log(this.delta);
+
+		var delta = (this.position+this.delta*this.speedFactor)-this.currentPosition;
+		delta = delta > this.width ? this.width : (delta < -this.width ? -this.width : delta);
+
+		var page = -(this.currentPosition+delta)/this.pageWidth;
+		this.page = page;
 
 		if(page != Math.round(page)) {
 			if(!this.element.className.match(/\btransition\b/)) {
