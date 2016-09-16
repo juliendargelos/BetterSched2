@@ -42,6 +42,11 @@ var Swipe = function(element) {
 				else return 0;
 			}
 		},
+		delta: {
+			get: function() {
+				return this.position - this.lastPosition;
+			}
+		},
 		page: {
 			set: function(v) {
 				var max = this.elements.length-1;
@@ -59,10 +64,12 @@ var Swipe = function(element) {
 
 	this.element = element;
 	this.transition = 200;
+	this.speedFactor = 10;
 	this.touchInit = 0;
 	this.currentPage = 0;
 	this.type = 'touch';
 	this.starting = false;
+	this.lastPosition = 0;
 
 	this.swipping = function(event) {
 		self.move(event);
@@ -74,7 +81,7 @@ var Swipe = function(element) {
 			y: this.type == 'touch' ? event.pageY : event.clientY
 		};
 
-		this.currentPosition = this.position;
+		this.currentPosition = this.lastPosition = this.position;
 		this.starting = true;
 
 		on(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
@@ -83,6 +90,7 @@ var Swipe = function(element) {
 	this.move = function(event) {
 		if(this.starting && this.type == 'touch' && Math.abs(event.pageY-this.touchInit.y) > Math.abs(event.pageX-this.touchInit.x)) this.end();
 		else {
+			this.lastPosition = this.position;
 			this.position = this.currentPosition+((this.type == 'touch' ? event.pageX : event.clientX)-this.touchInit.x);
 			this.starting = false;
 
@@ -95,7 +103,7 @@ var Swipe = function(element) {
 
 		no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
 
-		var page = -this.position/this.pageWidth;
+		var page = -(this.position+this.delta*this.speedFactor)/this.pageWidth;
 		this.page = page;
 
 		if(page != Math.round(page)) {
