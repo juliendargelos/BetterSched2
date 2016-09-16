@@ -13,6 +13,7 @@ var pageSched = {
 	days: document.getElementsByClassName('days')[0],
 	breakpoint: 1060,
 	mobile: false,
+	defaultDaySet: false,
 	message: {
 		element: document.createElement('span'),
 		all: [
@@ -105,11 +106,14 @@ var pageSched = {
 	},
 	onresize: function() {
 		if(window.innerWidth > this.breakpoint && this.mobile) {
-			this.swipe.position = 0;
+			this.swipe.page = 0;
 			this.mobile = false;
 		}
 		else if(window.innerWidth < this.breakpoint && !this.mobile) {
-			this.swipe.page = (new Date()).getDay()-1;
+			if(!this.defaultDaySet) {
+				this.swipe.page = (new Date()).getDay()-1;
+				this.defaultDaySet = true;
+			}
 			this.mobile = true;
 		}
 	},
