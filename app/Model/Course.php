@@ -69,7 +69,9 @@
 			else $this->name = preg_replace('/travaux dirigés/i', 'TD', $this->name);
 
 			$this->name = str_replace('Mmi', 'MMI', $this->name);
-			$this->name = preg_replace('/T[pd]\s+(\d+)/', 'TP$1', $this->name);
+			$this->name = preg_replace_callback('/T([pd])\s*(\d+)/i', function($match) {
+				return 'T'.strtoupper($match[1]).$match[2];
+			}, $this->name);
 			$this->name = preg_replace_callback('/\b(\d)a\b/', function($match) {
 				return strtoupper($match[1]).'A';
 			}, $this->name);
