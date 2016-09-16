@@ -12,6 +12,7 @@ var pageSched = {
 	swipe: new Swipe,
 	days: document.getElementsByClassName('days')[0],
 	breakpoint: 1060,
+	mobile: false,
 	message: {
 		element: document.createElement('span'),
 		all: [
@@ -36,9 +37,9 @@ var pageSched = {
 		if(v) this.spinner.show();
 		else this.spinner.hide();
 	},
-	update: function() {
+	update: function(callback) {
 		this.form.update();
-		this.get(this.form.year, this.form.week, this.form.group, this.form.filter);
+		this.get(this.form.year, this.form.week, this.form.group, this.form.filter, callback);
 	},
 	clear: function() {
 		this.days.innerHTML = '';
@@ -85,15 +86,17 @@ var pageSched = {
 			}
 		}
 	},
-	get: function(year, week, group, filter) {
+	get: function(year, week, group, filter, callback) {
 		var self = this;
 
 		this.loading = true;
+		if(typeof callback != 'function') callback = function(){};
 
 		sched.get(year, week, group, filter, function(status, schedule) {
 			if(status) {
 				self.clear();
 				sched.constructor.insert(schedule.days);
+				callback();
 			}
 			else result.set(schedule.message);
 
@@ -101,8 +104,13 @@ var pageSched = {
 		});
 	},
 	onresize: function() {
-		if(window.innerWidth > this.breakpoint && this.swipe.position != 0) {
+		if(window.innerWidth > this.breakpoint && this.mobile) {
 			this.swipe.position = 0;
+			this.mobile = false;
+		}
+		else if(window.innerWidth < this.breakpoint && !this.mobile) {
+			this.swipe.page = (new Date()).getDay()-1;
+			this.mobile = true;
 		}
 	},
 	init: function() {
@@ -118,7 +126,9 @@ var pageSched = {
 		this.message.init();
 		this.form.init();
 
-		this.update();
+		this.update(function() {
+			self.onresize();
+		});
 	}
 };
 
