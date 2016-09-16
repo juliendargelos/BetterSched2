@@ -4,7 +4,6 @@
 // @import components/sched
 // @import components/Spinner
 // @import components/scroll
-// @import components/header
 // @import components/Swipe
 
 var pageSched = {

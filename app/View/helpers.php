@@ -26,7 +26,7 @@
 	function alink($label, $controller, $action, $params = [], $selected = 'selected', $class = '') {
 		$class = $class.(current_path($controller, $action) ? ($class != '' ? ' ' : '').$selected : '');
 
-		echo '<a href="'.path($controller, $action, $params).'"'.($class != '' ? ' class="'.$class.'"' : '').'>'.$label.'</a>';
+		return '<a href="'.path($controller, $action, $params).'"'.($class != '' ? ' class="'.$class.'"' : '').'>'.$label.'</a>';
 	}
 
 	function css(...$files) {
@@ -41,14 +41,22 @@
 
 	function svg($file, $wrapperClass = 'svg', $wrapperId = null) {
 		$path = Options::PATH.'/'.$file.'.svg';
+		$svg = '';
+
 		if(file_exists($path)) {
 			$wrapperClass = $wrapperClass !== null ? ' class="'.addcslashes($wrapperClass, '"').'"' : '';
 			$wrapperId = $wrapperId !== null ? ' id="'.addcslashes($wrapperId, '"').'"' : '';
 
-			echo '<div'.$wrapperClass.$wrapperId.'>';
+			$svg = '<div'.$wrapperClass.$wrapperId.'>';
+
+			ob_start();
 			include $path;
-			echo '</div>';
+			$svg .= ob_get_clean();
+
+			$svg .= '</div>';
 		}
+
+		return $svg;
 	}
 
 	function options($data = [], $callback = null, $default = null) {
@@ -57,21 +65,28 @@
 			$callback = function() {};
 		}
 
+		$options = '';
+		$n = 0;
+
 		foreach($data as $k => $v) {
-			$option = [$v => $v];
+			$option = [!is_numeric($v) && !is_string($v) ? $n++ : $v => $v];
 
 			$selected = $callback($v, $k, $option) === true || ($default !== null && $default == $v);
 			$label = array_keys($option)[0];
 			$value = $option[$label];
 
-			echo '<option value="'.htmlentities($value).'"'.($selected ? ' selected' : '').'>'.htmlentities($label).'</option>';
+			$options .= '<option value="'.htmlentities($value).'"'.($selected ? ' selected' : '').'>'.htmlentities($label).'</option>';
 		}
+
+		return $options;
 	}
 
 	function select($label, $id, $data = null, $callback = null, $default = null) {
-		echo '<label for="'.htmlentities($id).'">'.htmlentities($label).'</label>';
-		echo '<select id="'.htmlentities($id).'">';
-		options($data, $callback, $default);
-		echo '</select>';
+		$select = '<label for="'.htmlentities($id).'">'.htmlentities($label).'</label>';
+		$select .= '<select id="'.htmlentities($id).'">';
+		$select .= options($data, $callback, $default);
+		$select .= '</select>';
+
+		return $select;
 	}
 ?>

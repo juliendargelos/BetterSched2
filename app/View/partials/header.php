@@ -4,7 +4,7 @@
 		<?= svg('logo', 'logo medium embedded') ?>
 	</a>
 	<nav>
-		<?php alink('À propos', 'page', 'about') ?>
-		<?php alink('Déconnexion', 'page', 'logout') ?>
+		<?= alink(svg('about').'<span>À propos</span>', 'page', 'about') ?>
+		<?= alink(svg('logout').'<span>Déconnexion</span>', 'page', 'logout') ?>
 	</nav>
 </header>

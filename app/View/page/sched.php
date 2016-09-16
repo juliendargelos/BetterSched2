@@ -2,7 +2,7 @@
 <?php partial('header') ?>
 <form>
 	<div>
-		<?php
+		<?=
 			select('Filière', 'sched-group', $groups, function($group, $value, &$option) use($default) {
 				$option = [$group['label'] => $value];
 				return $value == $default['group'];
@@ -10,10 +10,10 @@
 		?>
 	</div>
 	<div>
-		<?php select('Année', 'sched-year', $years, $default['year']); ?>
+		<?= select('Année', 'sched-year', $years, $default['year']); ?>
 	</div>
 	<div>
-		<?php
+		<?=
 			select('Semaine', 'sched-week', $weeks, function($week, $value, &$option) use($default) {
 				$option = [$value.' ('.$week->begin.' → '.$week->end.')' => $value];
 				return $value == $default['week'];
