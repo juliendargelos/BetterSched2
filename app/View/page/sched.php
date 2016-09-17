@@ -1,5 +1,5 @@
 <p class="ee">Coucou toi</p>
-<?php partial('header') ?>
+<?= partial('header') ?>
 <form>
 	<div>
 		<?=

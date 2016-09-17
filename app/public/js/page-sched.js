@@ -105,9 +105,10 @@ var pageSched = {
 			self.loading = false;
 		});
 	},
-	onresize: function() {
-		if(window.innerWidth > this.breakpoint && this.mobile) {
+	onresize: function(init) {
+		if(window.innerWidth > this.breakpoint && (this.mobile || init === true)) {
 			this.swipe.page = 0;
+			this.swipe.disabled = true;
 			this.mobile = false;
 		}
 		else if(window.innerWidth < this.breakpoint && !this.mobile) {
@@ -116,6 +117,7 @@ var pageSched = {
 				this.defaultDaySet = true;
 			}
 			this.mobile = true;
+			this.swipe.disabled = false;
 		}
 	},
 	init: function() {
@@ -132,7 +134,7 @@ var pageSched = {
 		this.form.init();
 
 		this.update(function() {
-			self.onresize();
+			self.onresize(true);
 		});
 	}
 };

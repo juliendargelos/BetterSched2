@@ -1,3 +1,4 @@
+<?= partial('header', ['title' => false]) ?>
 <main>
 	<div class="wrapper small">
 		<h1>BetterSched'</h1>

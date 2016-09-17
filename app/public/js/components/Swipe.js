@@ -75,21 +75,24 @@ var Swipe = function(element) {
 	this.type = 'touch';
 	this.starting = false;
 	this.lastPosition = 0;
+	this.disabled = false;
 
 	this.swipping = function(event) {
 		self.move(event);
 	};
 
 	this.start = function(event) {
-		this.touchInit = {
-			x: this.type == 'touch' ? event.pageX : event.clientX,
-			y: this.type == 'touch' ? event.pageY : event.clientY
-		};
+		if(!this.disabled) {
+			this.touchInit = {
+				x: this.type == 'touch' ? event.pageX : event.clientX,
+				y: this.type == 'touch' ? event.pageY : event.clientY
+			};
 
-		this.currentPosition = this.lastPosition = this.position;
-		this.starting = true;
+			this.currentPosition = this.lastPosition = this.position;
+			this.starting = true;
 
-		on(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
+			on(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
+		}
 	};
 
 	this.move = function(event) {
@@ -104,23 +107,29 @@ var Swipe = function(element) {
 	};
 
 	this.end = function(event) {
-		var self = this;
+		if(!this.disabled) {
+			var self = this;
 
-		this.move(event);
+			this.move(event);
 
-		no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
+			no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
 
-		var page = -this.position/this.pageWidth;
-		this.page = page;
+			var page = -this.position/this.pageWidth;
+			this.page = page;
 
-		if(page != Math.round(page)) {
-			if(!this.element.className.match(/\btransition\b/)) {
-				this.element.className += ' transition';
-				setTimeout(function() {
-					self.element.className = self.element.className.replace(/\btransition\b/, '');
-				}, this.transition);
+			if(page != Math.round(page)) {
+				if(!this.element.className.match(/\btransition\b/)) {
+					this.element.className += ' transition';
+					setTimeout(function() {
+						self.element.className = self.element.className.replace(/\btransition\b/, '');
+					}, this.transition);
+				}
 			}
 		}
+	};
+
+	this.onresize = function() {
+		this.page = -this.position/this.pageWidth;
 	};
 
 	this.init = function() {
@@ -146,6 +155,10 @@ var Swipe = function(element) {
 
 			on('mouseup', function(event) {
 				if(self.type == 'mouse') self.end(event);
+			});
+
+			on('resize', function() {
+				self.onresize();
 			});
 		}
 	};

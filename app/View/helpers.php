@@ -5,14 +5,33 @@
 	use Asset\Css;
 	use Asset\Js;
 
-	function partial($partial) {
+	function partial($partial, $vars = []) {
 		static $dir = __DIR__.'/partials/';
 
 		$file = $dir.$partial.'.php';
 
 		if(file_exists($file)) {
+			foreach($vars as $var => $value) {
+				global $$var;
+				$$var = $value;
+			}
+
+			ob_start();
 			include($file);
+			return ob_get_clean();
 		}
+	}
+
+	function vt($var) {
+		global $$var;
+
+		return $$var === true;
+	}
+
+	function vf($var) {
+		global $$var;
+
+		return $$var !== false;
 	}
 
 	function path($controller, $action, $params = []) {

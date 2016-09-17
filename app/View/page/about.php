@@ -1,4 +1,4 @@
-<?php partial('header') ?>
+<?= partial('header') ?>
 <main>
 	<div class="wrapper">
 		<section class="screen">

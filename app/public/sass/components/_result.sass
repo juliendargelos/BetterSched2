@@ -1,25 +1,41 @@
 #result
-	background: transparentize($white, 0.05)
 	width: 100%
 	height: 50px
-	top: 0
+	top: 30px
 	left: 0
+	z-index: 1000
 	position: fixed
-	font-size: 14px
-	backdrop-filter: blur(20px)
-	color: $brand
-	text-align: center
-	line-height: 50px
-	will-change: transform
+	will-change: transform, opacity
 	transform: translateY(-60px)
 	animation: result 4s 1
+	p
+		background: transparentize($white, 0.05)
+		border-radius: 8px
+		box-shadow: 0 15px 30px transparentize($black, 0.85)
+		font-size: 14px
+		backdrop-filter: blur(20px)
+		color: $brand
+		text-align: center
+		line-height: 50px
+		will-change: box-shadow
+		animation: result-shadow 0.08*4s 1
 
 @keyframes result
 	0%
-		transform: translateY(-60px)
+		opacity: 0
+		transform: translateY(10px)
 	8%
+		opacity: 1
 		transform: translateY(0)
 	92%
+		opacity: 1
 		transform: translateY(0)
 	100%
-		transform: translateY(-60px)
+		opacity: 1
+		transform: translateY(-100px)
+
+@keyframes result-shadow
+	0%
+		box-shadow: 0 5px 10px transparentize($black, 0.8)
+	100%
+		box-shadow: 0 15px 30px transparentize($black, 0.85)
