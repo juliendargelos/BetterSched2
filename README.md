@@ -3,7 +3,7 @@
 ---
 
 <p align="right"><a href="https://codeclimate.com/github/juliendargelos/BetterSched2"><img src="https://codeclimate.com/github/juliendargelos/BetterSched2/badges/gpa.svg" alt="Code Climate"/></a></p>
-> *BetterSched' fournit une interface élégante et organisée aux étudiants des universités de Bordeaux qui désirent
+> *BetterSched' fournit une interface élégante et organisée aux étudiants des universités de Bordeaux qui souhaitent
 > consulter leur emploi du temps.*
 
 Ce repository concerne la deuxième version de BetterSched', l'application est actuellement en beta développement.
