@@ -20,7 +20,9 @@ var pageSched = {
 		all: [
 			'Remerciez Satellys pour la latence...',
 			'Non, les cours ne sont pas annulés...',
-			'Ne partez pas ça devrait arriver...'
+			'Ne partez pas ça devrait arriver...',
+			'Profitez-en pour vous servir un café...',
+			'C\'est l\'histoire de Jano Lapin...'
 		],
 		get random() {
 			return this.all[Math.floor((Math.random() * this.all.length))];
