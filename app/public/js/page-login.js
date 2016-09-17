@@ -10,6 +10,10 @@ var pageLogin = {
 		element: document.getElementById('login'),
 		spinner: new Spinner,
 		request: new Request('/api/login'),
+		breakpoint: 520,
+		get mobile() {
+			return window.innerWidth <= this.breakpoint;
+		},
 		get data() {
 			return {
 				institute: document.getElementById('login-institute').value,
@@ -30,7 +34,8 @@ var pageLogin = {
 		clear: function() {
 			document.getElementById('login-username').value = '';
 			document.getElementById('login-password').value = '';
-			document.getElementById('login-username').focus();
+
+			if(!this.mobile) document.getElementById('login-username').focus();
 		},
 		success: function(response) {
 			if(response.status) window.location.reload();
