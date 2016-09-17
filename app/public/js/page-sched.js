@@ -23,7 +23,7 @@ var pageSched = {
 			'Ne partez pas ça devrait arriver...'
 		],
 		get random() {
-			return this.all[Math.floor((Math.random() * (this.all.length - 1)))];
+			return this.all[Math.floor((Math.random() * this.all.length))];
 		},
 		set: function() {
 			this.element.innerHTML = '';
