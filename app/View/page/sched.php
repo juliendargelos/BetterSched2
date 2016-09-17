@@ -1,4 +1,15 @@
-<p class="ee">Coucou toi</p>
+<p class="ee">
+	<?php
+		$hey = [
+			'Coucou toi',
+			'Oula, t\'as une sale tête aujourd\'hui',
+			'Salut beauté',
+			'Wanna some schedule ?',
+			'Comme dit Kaaris, "Ton boul ne sent pas le jasmin"'
+		];
+	?>
+	<?= $hey[array_rand($hey)]; ?>
+</p>
 <?= partial('header') ?>
 <form>
 	<div>
