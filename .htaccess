@@ -3,6 +3,10 @@ Options -Indexes
 DirectorySlash Off
 RewriteEngine On
 
+# À activer lorsque l'enregistrement DNS sera effectif
+# À modifier lors de la mise en production
+# Redirect 301 http://bettersched.herokuapp.com http://beta.bettersched.fr
+
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} !^/assets/ [or]
 RewriteCond %{REQUEST_FILENAME} !-f
