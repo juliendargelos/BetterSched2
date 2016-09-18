@@ -115,7 +115,7 @@ var pageSched = {
 		}
 		else if(window.innerWidth < this.breakpoint && !this.mobile) {
 			if(!this.defaultDaySet) {
-				this.swipe.page = (new Date()).getDay()-1;
+				this.swipe.page = api.defaultDay - 1;
 				this.defaultDaySet = true;
 			}
 			this.mobile = true;

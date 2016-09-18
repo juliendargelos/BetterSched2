@@ -9,6 +9,7 @@
 		const HOUR_BEGIN = 8;
 		const HOUR_END = 20;
 		const MINUTE_INTERVAL = 15;
+		const DEFAULT_DAY_LIMIT = 7;
 
 		protected static $url;
 		protected static $groups;

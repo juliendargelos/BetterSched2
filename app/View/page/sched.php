@@ -77,6 +77,7 @@
 		minuteInterval: <?= $minuteInterval ?>,
 		middleMinute: <?= $middleMinute ?>,
 		days: ['<?= implode($days, '\',\'') ?>'],
+		defaultDay: <?= $default['day'] ?>,
 		filters: {
 			<?php
 				$n = 0;
