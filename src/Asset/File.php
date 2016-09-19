@@ -82,7 +82,7 @@
 		public static function init() {
 			$class = get_called_class();
 
-			if($class::GENERATE) {
+			if($class::GENERATE && $class::REMOVE) {
 				$path = $class::DESTINATION.'/'.$class::EXTENSION;
 
 				if(is_dir($path)) {
