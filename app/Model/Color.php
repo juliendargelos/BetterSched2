@@ -29,7 +29,7 @@
 
 		protected $original;
 
-		public function __construct($original) {
+		public function __construct($original = null) {
 			parent::__construct([
 				'original' => $original
 			]);

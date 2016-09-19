@@ -13,7 +13,7 @@
 
 		protected $courses = [];
 
-		public function toArray() {
+		public function toArray($clone = false) {
 			$array = [
 				'stats' => array_map(function() {
 					return [
@@ -35,7 +35,7 @@
 					$array['stats'][$day]['parallelCoursesMax'] = $parallelCourses;
 				}
 
-				$array['days'][$day][] = $course->toArray();
+				$array['days'][$day][] = $clone ? $course->clone() : $course->toArray();
 			}
 
 			if(count($array['days'][self::LAST_DAY]) == 0) {
@@ -73,6 +73,7 @@
 		}
 
 		public function sort() {
+
 			usort($this->courses, function($course1, $course2) {
 				$begin1 = $course1->timeslot->begin->hour*60+$course1->timeslot->begin->minute;
 				$begin2 = $course2->timeslot->begin->hour*60+$course2->timeslot->begin->minute;
@@ -80,17 +81,17 @@
 				return $begin1 < $begin2 ? -1 : 1;
 			});
 
-			for($i = count($this->courses)-1; $i >= 0; $i--) {
-				$course1 = $this->courses[$i];
+			$length = count($this->courses);
 
-				for($j = $i-1; $j >= 0; $j--) {
-					$course2 = $this->courses[$j];
+			for($i = 0; $i < $length; $i++) {
+				$course1 = clone $this->courses[$i];
 
-					if($course1->isParallelWith($course2)) {
-						if($course1->duration > $course2->duration) {
-							$this->courses[$i] = $course2;
-							$this->courses[$j] = $course1;
-						}
+				for($j = $i+1; $j < $length; $j++) {
+					$course2 = clone $this->courses[$j];
+
+					if($course1->isParallelWith($course2) && $course1->duration < $course2->duration) {
+						$this->courses[$i] = $course2;
+						$this->courses[$j] = $course1;
 					}
 				}
 			}

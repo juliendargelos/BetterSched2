@@ -20,17 +20,25 @@
 
 		private $toArray = false;
 
-		public function toArray() {
-			return [
+		public function toArray($clone = false) {
+			$array = [
 				'name' => $this->getName(),
-				'timeslot' => $this->getTimeslot()->toArray(),
+				'timeslot' => $clone ? $this->getTimeslot()->clone() : $this->getTimeslot()->toArray(),
 				'professors' => $this->getProfessors(),
 				'parallelCourses' => $this->getParallelCourses(),
 				'parallelFactor' => $this->getParallelFactor(),
 				'classroom' => $this->getClassroom(),
-				'color' => $this->getColor()->better,
+				'color' => $clone ? $this->getColor()->clone() : $this->getColor()->better,
 				'negative' => $this->getNegative()
 			];
+
+			if($clone) {
+				$array += [
+					'date' => $this->getDate()->clone(),
+				];
+			}
+
+			return $array;
 		}
 
 		public function clean() {
@@ -202,7 +210,7 @@
 			$end = $parallel->timeslot->end->hour*60+$parallel->timeslot->end->minute;
 			$begin = $this->timeslot->begin->hour*60+$this->timeslot->begin->minute;
 
-			$delta = ($end-$begin)/15;
+			$delta = ($end-$begin)/Sched::MINUTE_INTERVAL;
 
 			if($b < $begin && $delta > $this->negative) $this->negative = $delta;
 		}

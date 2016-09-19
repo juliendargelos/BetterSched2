@@ -7,7 +7,7 @@
 		protected $hour;
 		protected $minute;
 
-		public function __construct($hour, $minute) {
+		public function __construct($hour = null, $minute = null) {
 			parent::__construct([
 				'hour' => $hour,
 				'minute' => $minute
