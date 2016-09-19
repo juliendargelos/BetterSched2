@@ -4,6 +4,7 @@
 		<title>BetterSched'</title>
 
 		<meta charset="utf-8">
+		<meta name="description" content="BetterSched' fournit une interface élégante et intuitive aux étudiants de Bordeaux qui souhaitent consulter leur emploi du temps.">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 		<meta name="format-detection" content="telephone=no">
@@ -34,6 +35,14 @@
 		<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/assets/meta/apple-touch-icon-180x180.png">
 
 		<link rel="manifest" href="/assets/meta/manifest.json">
+
+		<meta property="og:title" content="BetterSched'">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="http://<?= $_SERVER['SERVER_NAME'] ?>">
+		<meta property="og:image" content="http://<?= $_SERVER['SERVER_NAME'] ?>/assets/cover.png">
+		<meta property="og:image:width" content="1000">
+		<meta property="og:image:height" content="530">
+		<meta property="og:description" content="BetterSched' fournit une interface élégante et intuitive aux étudiants de Bordeaux qui souhaitent consulter leur emploi du temps.">
 
 		<?= css() ?>
 	</head>
