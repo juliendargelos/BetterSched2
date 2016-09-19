@@ -67,11 +67,7 @@
 			$wrapperId = $wrapperId !== null ? ' id="'.addcslashes($wrapperId, '"').'"' : '';
 
 			$svg = '<div'.$wrapperClass.$wrapperId.'>';
-
-			ob_start();
-			include $path;
-			$svg .= ob_get_clean();
-
+			$svg .= file_get_contents($path);
 			$svg .= '</div>';
 		}
 
