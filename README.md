@@ -28,7 +28,7 @@ BetterSched' joue le rôle de proxy entre un client et un serveur web Satellys. 
   - Les échanges avec BetterSched' sont majoritairement asychrones et évitent ainsi le téléchargement de fichiers inutiles par le client.
   - Il est prévu d'exploiter le cache pour diminuer encore la quantité de données téléchargées par le client.
 
-- Lors de la mise en production, il est prévu de changer d'hébergeur afin de ne plus subir les latences et indisponibilités rencontrées actuellement.
+- Déployement de l'application sur Heroku.
 
 ## API publique
 <sub>URL (HTTP)</sub> | <sub>Méthode</sub> | <sub>Paramètres</sub> | <sub>Réponse</sub> | <sub>Description</sub>
