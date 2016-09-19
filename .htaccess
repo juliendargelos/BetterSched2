@@ -4,7 +4,7 @@ DirectorySlash Off
 RewriteEngine On
 
 # À modifier lors de la mise en production
-Redirect 301 http://bettersched.herokuapp.com http://beta.bettersched.fr
+Redirect 301 //bettersched.herokuapp.com //beta.bettersched.fr
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} !^/assets/ [or]
