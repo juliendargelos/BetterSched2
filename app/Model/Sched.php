@@ -13,7 +13,7 @@
 
 		protected $courses = [];
 
-		public function toArray($clone = false) {
+		public function toArray($object = false) {
 			$array = [
 				'stats' => array_map(function() {
 					return [
@@ -35,7 +35,7 @@
 					$array['stats'][$day]['parallelCoursesMax'] = $parallelCourses;
 				}
 
-				$array['days'][$day][] = $clone ? $course->clone() : $course->toArray();
+				$array['days'][$day][] = $object ? $course : $course->toArray();
 			}
 
 			if(count($array['days'][self::LAST_DAY]) == 0) {
@@ -84,10 +84,10 @@
 			$length = count($this->courses);
 
 			for($i = 0; $i < $length; $i++) {
-				$course1 = clone $this->courses[$i];
+				$course1 = $this->courses[$i];
 
 				for($j = $i+1; $j < $length; $j++) {
-					$course2 = clone $this->courses[$j];
+					$course2 = $this->courses[$j];
 
 					if($course1->isParallelWith($course2) && $course1->duration < $course2->duration) {
 						$this->courses[$i] = $course2;

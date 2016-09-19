@@ -20,23 +20,17 @@
 
 		private $toArray = false;
 
-		public function toArray($clone = false) {
+		public function toArray($object = false) {
 			$array = [
 				'name' => $this->getName(),
-				'timeslot' => $clone ? $this->getTimeslot()->clone() : $this->getTimeslot()->toArray(),
+				'timeslot' => $object ? $this->getTimeslot() : $this->getTimeslot()->toArray(),
 				'professors' => $this->getProfessors(),
 				'parallelCourses' => $this->getParallelCourses(),
 				'parallelFactor' => $this->getParallelFactor(),
 				'classroom' => $this->getClassroom(),
-				'color' => $clone ? $this->getColor()->clone() : $this->getColor()->better,
+				'color' => $object ? $this->getColor() : $this->getColor()->better,
 				'negative' => $this->getNegative()
 			];
-
-			if($clone) {
-				$array += [
-					'date' => $this->getDate()->clone(),
-				];
-			}
 
 			return $array;
 		}

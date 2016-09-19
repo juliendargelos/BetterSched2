@@ -27,26 +27,18 @@
 			return $html ? '<pre>'.json_encode($properties, JSON_PRETTY_PRINT | $options).'</pre>' : json_encode($properties, $options);
 		}
 
-		public function toArray($clone = false) {
+		public function toArray($object = false) {
 			$methods = array_diff(get_class_methods(get_class($this)), ['get', 'getter']);
 			$properties = [];
 			foreach($methods as $method) {
 				if(substr($method, 0, 3) == 'get') {
 					$property = lcfirst(substr($method, 3));
 					$value = $this->__get($property);
-					$properties[$property] = is_subclass_of($value, self::class) ? ($clone ? $value->clone() : $value->toArray()) : $value;
+					$properties[$property] = is_subclass_of($value, self::class) ? ($object ? $value : $value->toArray()) : $value;
 				}
 			}
 
 			return $properties;
-		}
-
-		public function clone() {
-			$class = get_called_class();
-			$properties = $this->toArray(true);
-			$clone = new $class();
-			foreach($properties as $property => $value) $clone->$property = $value;
-			return $clone;
 		}
 
 		public static function fromJson($json) {
