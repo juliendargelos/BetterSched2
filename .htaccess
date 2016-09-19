@@ -4,7 +4,12 @@ DirectorySlash Off
 RewriteEngine On
 
 # À modifier lors de la mise en production
-Redirect 301 https://bettersched.herokuapp.com http://beta.bettersched.fr
+RewriteCond %{HTTP_HOST} ^bettersched.herokuapp.com$
+RewriteRule ^(.*) http://www.%{HTTP_HOST}/$1  [QSA,L,R=301]
+
+RewriteCond %{HTTP_HOST} !^www.
+RewriteCond %{HTTP_HOST} !^[a-zA-Z0-0\-\.]+\.[a-zA-Z0-0\-\.]+\.(fr|com|org|net)$
+RewriteRule ^(.*) http://www.%{HTTP_HOST}/$1  [QSA,L,R=301]
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} !^/assets/ [or]
