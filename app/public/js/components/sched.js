@@ -74,6 +74,7 @@ var sched = {
 		}
 	},
 	filter: function(days, filters) {
+		if(!Array.isArray(filters)) return days;
 		if(filters.length == 0) return days;
 
 		var filtered = [];
