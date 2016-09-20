@@ -6,6 +6,5 @@ post /api/login api.login
 get /api/logged api.logged
 get /api/logout api.logout
 get /api/sched/$year/$week/$group api.sched
-get /api/sched/$year/$week/$group/$filter api.sched
 
 get /robots.txt seo.robots

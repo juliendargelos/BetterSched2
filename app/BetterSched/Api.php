@@ -13,7 +13,6 @@
 
 		protected static $url;
 		protected static $groups;
-		protected static $filters = [];
 
 		protected static $actions = [
 			'login' => [

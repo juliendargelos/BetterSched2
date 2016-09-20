@@ -15,18 +15,21 @@
 		protected $timeslot;
 		protected $parallelCourses;
 		protected $parallelFactor;
+		protected $parallels;
 		protected $color;
-		protected $negative = 0;
+		protected $negative = [];
 
 		private $toArray = false;
 
 		public function toArray($object = false) {
 			$array = [
+				'id' => $this->getId(),
 				'name' => $this->getName(),
 				'timeslot' => $object ? $this->getTimeslot() : $this->getTimeslot()->toArray(),
 				'professors' => $this->getProfessors(),
 				'parallelCourses' => $this->getParallelCourses(),
 				'parallelFactor' => $this->getParallelFactor(),
+				'parallels' => $this->getParallels(),
 				'classroom' => $this->getClassroom(),
 				'color' => $object ? $this->getColor() : $this->getColor()->better,
 				'negative' => $this->getNegative()
@@ -160,28 +163,35 @@
 		public function loadParallelCourses($courses) {
 			$this->parallelCourses = 0;
 
-			$parallels = [];
+			$this->parallels = [];
 
 			foreach($courses as $course) {
 				if($this->isParallelWith($course)) {
-					$parallels[] = $course;
+					$this->parallels[] = $course;
 					$this->loadNegative($course);
 				}
 			}
 
 			$maxParallel = 0;
 
-			for($i = count($parallels)-1; $i >= 0; $i--) {
+			for($i = count($this->parallels)-1; $i >= 0; $i--) {
 
 				$parallel = 0;
 				for($j = $i-1; $j >= 0; $j--) {
-					if($parallels[$i]->isParallelWith($parallels[$j])) $parallel++;
+					if($this->parallels[$i]->isParallelWith($this->parallels[$j])) $parallel++;
 				}
 				if($parallel > $maxParallel) $maxParallel = $parallel;
 			}
 
 			$this->parallelCourses = $maxParallel+1;
 		}
+
+		protected function getParallels() {
+			return array_map(function($course) {
+				return $course->getId();
+			}, $this->parallels);
+		}
+
 		protected function getParallelFactor() {
 			return $this->parallelFactor;
 		}
@@ -206,7 +216,7 @@
 
 			$delta = ($end-$begin)/Sched::MINUTE_INTERVAL;
 
-			if($b < $begin && $delta > $this->negative) $this->negative = $delta;
+			if($b < $begin) $this->negative[$parallel->getId()] = $delta;
 		}
 
 		public function isParallelWith($course) {

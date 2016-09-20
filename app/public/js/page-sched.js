@@ -7,6 +7,7 @@
 // @import components/Swipe
 // @import components/standalone
 // @import components/links
+// @import components/RegParser
 
 var pageSched = {
 	spinner: new Spinner,
@@ -24,9 +25,9 @@ var pageSched = {
 			'Profitez-en pour vous servir un café...',
 			'C\'est l\'histoire de Jano Lapin...',
 			'L\'temps passe, j\'vois l\'soleil s\'lever, s\'coucher...',
- +			'Currently trying to make the world a better place...',
- +			'Attention derrière toi...',
- +			'L\'accès Satellys j\'l\'ai pas loué...'
+			'Currently trying to make the world a better place...',
+			'Attention derrière toi...',
+			'L\'accès Satellys j\'l\'ai pas loué...'
 		],
 		get random() {
 			return this.all[Math.floor((Math.random() * this.all.length))];
@@ -45,20 +46,44 @@ var pageSched = {
 		if(v) this.spinner.show();
 		else this.spinner.hide();
 	},
+	get filters() {
+		var groupFilters = this.form.groupFilters[this.form.group];
+		if(groupFilters !== undefined && groupFilters !== null) {
+			var filtersInput = this.form.filters;
+			var filters = [];
+			for(var i = 0; i < filtersInput.length; i++) {
+				var filterInput = filtersInput[i];
+				if(filterInput.value != '') {
+					var filter = this.form.filtersData[groupFilters][filterInput.name];
+
+					filters.push({
+						test: filter.test,
+						match: RegParser.compile(filter.match),
+						value: RegParser.compile(filter.list[filterInput.value])
+					});
+				}
+			}
+		}
+
+		return filters;
+	},
 	update: function(callback) {
+		var self = this;
+
 		this.form.update();
-		this.get(this.form.year, this.form.week, this.form.group, this.form.filter, callback);
+		this.get(this.form.year, this.form.week, this.form.group, callback);
 	},
 	clear: function() {
 		this.days.innerHTML = '';
 	},
 	form: {
+		filtersData: api.filters,
+		currentGroupFilters: null,
+		groupFilters: api.groupFilters,
 		element: document.getElementsByTagName('form')[0],
-		filters: document.getElementsByTagName('form')[0].getElementsByClassName('filters')[0],
+		filtersField: document.getElementsByTagName('form')[0].getElementsByClassName('filters')[0],
 		inputs: {
-			get filter() {
-				return pageSched.form.filters.getElementsByClassName('visible')[0].getElementsByTagName('select')[0];
-			}
+			filters: document.getElementsByTagName('form')[0].getElementsByClassName('filters')[0].getElementsByTagName('select')
 		},
 		get group() {
 			return this.inputs.group.value;
@@ -69,18 +94,68 @@ var pageSched = {
 		get week() {
 			return this.inputs.week.value;
 		},
-		get filter() {
-			return this.inputs.filter.value;
+		get filters() {
+			return Array.prototype.slice.call(this.inputs.filters).map(function(filter) {
+				return {
+					name: filter.name,
+					value: filter.value
+				};
+			});
 		},
 		update: function() {
-			var visibleFilters = this.filters.getElementsByClassName('visible');
+			var groupFilters = this.groupFilters[this.group];
 
-			for(var i = 0; i < visibleFilters.length; i++) visibleFilters[i].className = '';
+			if(groupFilters != this.currentGroupFilters) {
+				this.currentGroupFilters = groupFilters;
+				this.filtersField.innerHTML = '';
 
-			var filter = document.getElementById('sched-filter-'+api.filters[this.group]);
-			if(!filter) filter = document.getElementById('sched-filter-none');
+				if(groupFilters !== null && groupFilters !== undefined) {
+					var filters = this.filtersData[groupFilters];
+					if(filters !== undefined) {
+						this.filtersField.removeAttribute('data-empty');
 
-			filter.parentNode.className = 'visible';
+						for(var name in filters) {
+							var filter = filters[name];
+
+							var parent = document.createElement('div');
+							var label = document.createElement('label');
+							var select = document.createElement('select');
+
+							var id = 'filter-'+name;
+
+							parent.className = 'filter';
+							label.appendChild(document.createTextNode(name));
+							label.setAttribute('for', id);
+							select.name = name;
+							select.id = id;
+							select.on('change', this.onchange);
+
+							var option = document.createElement('option');
+							option.value = '';
+							option.appendChild(document.createTextNode('Aucun'));
+							select.appendChild(option);
+
+							for(var value in filter.list) {
+								var option = document.createElement('option');
+								option.value = value;
+								option.appendChild(document.createTextNode(value));
+								select.appendChild(option);
+							}
+
+							parent.appendChild(label);
+							parent.appendChild(select);
+
+							this.filtersField.appendChild(parent);
+						}
+					}
+				}
+				else {
+					this.filtersField.setAttribute('data-empty', true);
+					var p = document.createElement('p');
+					p.appendChild(document.createTextNode('Aucun filtre disponible'));
+					this.filtersField.appendChild(p);
+				}
+			}
 		},
 		onchange: function() {
 			pageSched.update();
@@ -89,18 +164,20 @@ var pageSched = {
 			var selects = this.element.getElementsByTagName('select');
 			for(var i = 0; i < selects.length; i++) {
 				var select = selects[i];
-				if(select.id.substring(0, 13) != 'sched-filter-') this.inputs[select.id.substr(6)] = select;
+				if(select.parentNode.className != 'filter') {
+					this.inputs[select.id.substr(6)] = select;
+				}
 				select.on('change', this.onchange);
 			}
 		}
 	},
-	get: function(year, week, group, filter, callback) {
+	get: function(year, week, group, callback) {
 		var self = this;
 
 		this.loading = true;
 		if(typeof callback != 'function') callback = function(){};
 
-		sched.get(year, week, group, filter, function(status, schedule) {
+		sched.get(year, week, group, this.filters, function(status, schedule) {
 			if(status) {
 				self.clear();
 				sched.constructor.insert(schedule.days);

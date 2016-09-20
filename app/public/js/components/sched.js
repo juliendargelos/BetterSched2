@@ -2,20 +2,57 @@ var sched = {
 	element: document.getElementsByClassName('sched')[0].getElementsByClassName('days')[0],
 	url: '/api/sched',
 	request: new Request,
-	urlFor: function(year, week, group, filter) {
-		filter = filter === undefined || filter == '' || filter == 'Aucun' ? false : filter;
-
-		return this.url+'/'+year+'/'+week+'/'+group+(filter ? '/'+filter : '');
+	current: null,
+	currentParams: {
+		year: null,
+		week: null,
+		group: null
 	},
-	get: function(year, week, group, filter, callback) {
-		this.request.url = this.urlFor(year, week, group, filter);
+	equalsCurrent: function(year, week, group) {
+		return year == this.currentParams.year && week == this.currentParams.week && group == this.currentParams.group;
+	},
+	urlFor: function(year, week, group) {
+		return this.url+'/'+year+'/'+week+'/'+group;
+	},
+	get: function(year, week, group, filters, callback) {
+		var self = this;
 
-		this.request.success(function(response) {
-			if(response.status) callback(response.status, response.sched);
-			else callback(response.status, response);
-		}).error(function() {
-			callback(response.status, 'Erreur réseau');
-		}).send();
+		if(this.equalsCurrent(year, week, group)) {
+			var schedule = JSON.parse(JSON.stringify(this.current));
+			schedule.days = self.filter(schedule.days, filters);
+			callback(true, schedule);
+		}
+		else {
+			this.currentParams = {
+				year: year,
+				week: week,
+				group: group
+			};
+
+			this.request.url = this.urlFor(year, week, group);
+
+			this.request.success(function(response) {
+				if(response.status) {
+					self.current = response.sched;
+					var schedule = JSON.parse(JSON.stringify(response.sched));
+					schedule.days = self.filter(schedule.days, filters);
+					callback(response.status, schedule);
+				}
+				else callback(response.status, response);
+			}).error(function() {
+				callback(response.status, 'Erreur réseau');
+			}).send();
+		}
+	},
+	coursesById: function(courses) {
+		var coursesById = {};
+
+		for(var i = 0; i < courses.length; i++) {
+			var course = courses[i];
+			coursesById[course.id] = course;
+		}
+
+		return coursesById;
 	},
 	compute: {
 		duration: function(course) {
@@ -25,7 +62,63 @@ var sched = {
 			duration /=  api.minuteInterval;
 
 			return duration;
+		},
+		maxNegative: function(course) {
+			var maxNegative = 0;
+			for(var id in course.negative) {
+				var negative = course.negative[id];
+				if(negative > maxNegative) maxNegative = negative;
+			}
+
+			return maxNegative;
 		}
+	},
+	filter: function(days, filters) {
+		if(filters.length == 0) return days;
+
+		var filtered = [];
+
+		for(var dayName in days) {
+			var courses = days[dayName];
+			var coursesById = this.coursesById(courses);
+
+			filtered[dayName] = [];
+
+			for(var i = 0; i < courses.length; i++) {
+				var course = courses[i];
+
+				var pushed = false;
+
+				for(var j = 0; j < filters.length; j++) {
+					var filter = filters[j];
+					var test = course[filter.test];
+
+					if(test.match(filter.match)) {
+						if(test.match(filter.value)) {
+							if(!pushed) {
+								filtered[dayName].push(course);
+								pushed = true;
+							}
+						}
+						else {
+							if(pushed) filtered[dayName] = filtered[dayName].slice(0, -1);
+							for(var k = 0; k < course.parallels.length; k++) {
+								var parallel = coursesById[course.parallels[k]];
+								parallel.parallelCourses--;
+								parallel.negative[course.id] = 0;
+							}
+							break;
+						}
+					}
+					else if(!pushed) {
+						filtered[dayName].push(course);
+						pushed = true;
+					}
+				}
+			}
+		}
+
+		return filtered;
 	},
 	constructor: {
 		insert: function(days) {
@@ -111,7 +204,7 @@ var sched = {
 			element.setAttribute('data-parallel-courses', course.parallelCourses);
 			element.setAttribute('data-parallel-factor', course.parallelFactor);
 			element.setAttribute('data-duration', sched.compute.duration(course));
-			element.setAttribute('data-negative', course.negative);
+			element.setAttribute('data-negative', sched.compute.maxNegative(course));
 
 			if(course.timeslot.begin.minute == 0 || course.timeslot.begin.minute == api.middleMinute) {
 				element.setAttribute('data-begin-hour', true);

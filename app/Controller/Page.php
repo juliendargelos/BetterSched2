@@ -36,12 +36,17 @@
 			$currentFilter = Filter::get(User::$current->institute);
 
 			if(class_exists($currentFilter)) {
-				$filters = array_map(function($f) {
-					return ['Aucun']+array_keys($f);
+				$filters = array_map(function($filter) {
+					return array_map(function($f) {
+						return array_keys($f['list']);
+					}, $filter);
 				}, $currentFilter::$filters);
-
 			}
 			else $filters = [];
+
+			$groupFilters = array_map(function($group) {
+				return array_key_exists('filter', $group) ? $group['filter'] : null;
+			}, $currentApi::$groups);
 
 			$now = \Date\Date::now();
 
@@ -53,7 +58,8 @@
 				'days' => \Date\Date::$days,
 				'groups' => class_exists($currentApi) ? $currentApi::$groups : [],
 				'years' => [Conf::INSTITUTE_STARTING_YEAR, Conf::INSTITUTE_STARTING_YEAR+1],
-				'filters' => $filters,
+				'filters' => json_encode($currentFilter::$filters, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+				'groupFilters' => json_encode($groupFilters, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
 				'default' => [
 					'day' => $now->weekDay >= Api::DEFAULT_DAY_LIMIT ? 1 : $now->weekDay,
 					'year' => $now->year,

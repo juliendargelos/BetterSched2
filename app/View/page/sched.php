@@ -31,19 +31,7 @@
 			});
 		?>
 	</div>
-	<div class="filters">
-		<div>
-			<label for="sched-filter-none">Filtre</label>
-			<select id="sched-filter-none" disabled>
-				<option value="" selected>Aucun filtre disponible</option>
-			</select>
-		</div>
-		<?php foreach($filters as $name => $filter): ?>
-			<div>
-				<?php select('Filtre', 'sched-filter-'.$name, $filter); ?>
-			</div>
-		<?php endforeach; ?>
-	</div>
+	<div class="filters"></div>
 </form>
 
 <main class="sched">
@@ -78,16 +66,7 @@
 		middleMinute: <?= $middleMinute ?>,
 		days: ['<?= implode($days, '\',\'') ?>'],
 		defaultDay: <?= $default['day'] ?>,
-		filters: {
-			<?php
-				$n = 0;
-				$length = count($groups);
-				foreach($groups as $key => $group) {
-					echo '\''.$key.'\': '.(array_key_exists('filter', $group) ? '\''.$group['filter'].'\'' : 'null');
-					$n++;
-					if($n != $length) echo ',';
-				}
-			?>
-		}
+		filters: <?= $filters ?>,
+		groupFilters: <?= $groupFilters ?>
 	};
 </script>

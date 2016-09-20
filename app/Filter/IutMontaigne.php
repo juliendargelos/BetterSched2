@@ -5,42 +5,62 @@
 
 	abstract class IutMontaigne extends Filter {
 		public static $filters = [
-			// 'MMI1A' => [
-			// 	'TD1-TP1' => [
-			// 		'TP' => 'TP1',
-			// 		'TD' => 'TD1'
-			// 	],
-			// 	'TD1-TP2' => [
-			// 		'TP' => 'TP2',
-			// 		'TD' => 'TD1'
-			// 	],
-			// 	'TD2-TP2' => [
-			// 		'TP' => 'TP2',
-			// 		'TD' => 'TD2'
-			// 	],
-			// 	'TD2-TP3' => [
-			// 		'TP' => 'TP3',
-			// 		'TD' => 'TD2'
-			// 	]
-			// ],
-			// 'MMI2A' => [
-			// 	'TD3-TP4' => [
-			// 		'TP' => 'TP4',
-			// 		'TD' => 'TD3'
-			// 	],
-			// 	'TD3-TP5' => [
-			// 		'TP' => 'TP5',
-			// 		'TD' => 'TD3'
-			// 	],
-			// 	'TD4-TP5' => [
-			// 		'TP' => 'TP5',
-			// 		'TD' => 'TD4'
-			// 	],
-			// 	'TD4-TP6' => [
-			// 		'TP' => 'TP6',
-			// 		'TD' => 'TD4'
-			// 	]
-			// ]
+			'MMI1A' => [
+				'TD' => [
+					'test' => 'name',
+					'match' => '/\bTD\d\b/i',
+					'list' => [
+						'1' => '/\bTD1\b/i',
+						'2' => '/\bTD2\b/i'
+					]
+				],
+				'TP' => [
+					'test' => 'name',
+					'match' => '/\bTP\d\b/i',
+					'list' => [
+						'1' => '/\bTP1\b/i',
+						'2' => '/\bTP2\b/i',
+						'3' => '/\bTP3\b/i'
+					]
+				],
+				'LV2' => [
+					'test' => 'name',
+					'match' => '/(espagnol|allemand|chinois)/i',
+					'list' => [
+						'Espagnol' => '/\bespagnol\b/i',
+						'Allemand' => '/\allemand\b/i',
+						'Chinois' => '/\chinois\b/i',
+					]
+				]
+			],
+			'MMI2A' => [
+				'TD' => [
+					'test' => 'name',
+					'match' => '/\bTD\d\b/i',
+					'list' => [
+						'3' => '/\bTD3\b/i',
+						'4' => '/\bTD4\b/i'
+					]
+				],
+				'TP' => [
+					'test' => 'name',
+					'match' => '/\bTP\d\b/i',
+					'list' => [
+						'4' => '/\bTP4\b/i',
+						'5' => '/\bTP5\b/i',
+						'6' => '/\bTP6\b/i'
+					]
+				],
+				'LV2' => [
+					'test' => 'name',
+					'match' => '/(espagnol|allemand|chinois)/i',
+					'list' => [
+						'Espagnol' => '/\bespagnol\b/i',
+						'Allemand' => '/\allemand\b/i',
+						'Chinois' => '/\chinois\b/i',
+					]
+				]
+			],
 		];
 	}
 ?>
