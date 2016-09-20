@@ -77,15 +77,18 @@
 			$weeks = [];
 
 			for($w = 1; $w <= 53; $w++) {
-				$week = (object) [
-					'begin' => date(\Datetime::ISO8601, strtotime(($w < 38 ? $year : $year+1).'W'.($w < 10 ? '0'.$w : $w))),
-					'end' => date(\Datetime::ISO8601, strtotime(($w < 38 ? $year : $year+1).'W'.($w < 10 ? '0'.$w : $w).'7'))
-				];
+				$week = [];
 
-				$weeks[$w] = (object) [
-					'begin' => substr($week->begin, 8, 2).'/'.substr($week->begin, 5, 2).'/'.substr($week->begin, 2, 2),
-					'end' => substr($week->end, 8, 2).'/'.substr($week->end, 5, 2).'/'.substr($week->end, 2, 2)
-				];
+				$y = $w < 35 ? $year + 1 : $year;
+
+				$time = strtotime('1 January '.$y, time());
+				$day = date('w', $time);
+				$time += ((7*$w) + 1 - $day)*24*3600;
+				$week['begin'] = date('j/m/Y', $time);
+				$time += 6*24*3600;
+				$week['end'] = date('j/m/Y', $time);
+
+				$weeks[$w] = (object) $week;
 			}
 
 			return $weeks;

@@ -39,5 +39,35 @@
 				</div>
 			</article>
 		</section>
+		<!--
+			<section class="team">
+				<article>
+					<img src="/assets/juliendargelos.jpg" alt="Portrait de Julien Dargelos"/>
+					<div class="content">
+						<h3>
+							<span class="name">Julien Dargelos</span>
+							<span class="job">Étudiant MMI à Bordeaux</span>
+						</h3>
+						<ul>
+							<li>Développement Front-Back</li>
+							<li>Communication</li>
+						</ul>
+					</div>
+				</article>
+				<article>
+					<img src="/assets/paulbonneau.jpg" alt="Portrait de Paul Bonneau"/>
+					<div class="content">
+						<h3>
+							<span class="name">Paul Bonneau</span>
+							<span class="job">Étudiant MMI à Bordeaux</span>
+						</h3>
+						<ul>
+							<li>Charte graphique</li>
+							<li>Communication</li>
+						</ul>
+					</div>
+				</article>
+			</section>
+		!-->
 	</div>
 </main>
