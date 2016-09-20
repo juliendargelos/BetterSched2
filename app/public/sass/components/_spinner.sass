@@ -3,7 +3,7 @@
 	width: 64px
 	height: 64px
 	opacity: 1
-	animation: spinner-in 0.2s 1
+	animation: spinner-in 0.3s 1
 	&.hidden, &.init
 		opacity: 0
 	&.hidden
@@ -17,6 +17,9 @@
 
 @keyframes spinner-in
 	0%
+		opacity: 0
+		transform: scale(0.3)
+	33.33%
 		opacity: 0
 		transform: scale(0.3)
 	100%
