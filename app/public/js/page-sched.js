@@ -8,6 +8,7 @@
 // @import components/standalone
 // @import components/links
 // @import components/RegParser
+// @import components/cookies
 
 var pageSched = {
 	spinner: new Spinner,
@@ -102,6 +103,9 @@ var pageSched = {
 				};
 			});
 		},
+		idForFilter: function(name) {
+			return 'filter-'+name;
+		},
 		update: function() {
 			var groupFilters = this.groupFilters[this.group];
 
@@ -121,7 +125,7 @@ var pageSched = {
 							var label = document.createElement('label');
 							var select = document.createElement('select');
 
-							var id = 'filter-'+name;
+							var id = this.idForFilter(name);
 
 							parent.className = 'filter';
 							label.appendChild(document.createTextNode(name));
@@ -156,9 +160,46 @@ var pageSched = {
 					this.filtersField.appendChild(p);
 				}
 			}
+			else this.saveFilters();
 		},
 		onchange: function() {
 			pageSched.update();
+		},
+		saveFilters: function() {
+			var groupFilters = this.groupFilters[this.group];
+
+			if(groupFilters !== null && groupFilters !== undefined) {
+				var filters = this.filtersData[groupFilters];
+				if(filters !== undefined) {
+					var cs = {};
+					for(var name in filters) cs[name] = document.getElementById(this.idForFilter(name)).value;
+
+					cookies.set('filters', JSON.stringify(cs));
+				}
+			}
+		},
+		loadFilters: function() {
+			try {
+				var filters = JSON.parse(cookies.get('filters'));
+			}
+			catch(e) {}
+
+			if(typeof filters == 'object' && filters !== null) {
+				for(var name in filters) {
+					var element = document.getElementById(this.idForFilter(name));
+					var options = element.getElementsByTagName('option');
+					var selected = false;
+
+					for(var i = 0; i < options.length && !selected; i++) {
+						var option = options[i];
+
+						if(option.getAttribute('value') == filters[name]) {
+							option.setAttribute('selected', true);
+							selected = true;
+						}
+					}
+				}
+			}
 		},
 		init: function() {
 			var selects = this.element.getElementsByTagName('select');
@@ -169,6 +210,9 @@ var pageSched = {
 				}
 				select.on('change', this.onchange);
 			}
+
+			this.update();
+			this.loadFilters();
 		}
 	},
 	get: function(year, week, group, callback) {
