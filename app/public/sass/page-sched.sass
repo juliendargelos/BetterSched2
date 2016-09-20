@@ -26,7 +26,7 @@ form
 	background: $thin-grey
 	margin-top: -1px
 	border-top: 1px solid $medium-grey
-	+display-flex
+	display: flex
 	flex-wrap: wrap
 	> div
 		width: 50%
@@ -34,7 +34,7 @@ form
 		flex-grow: 0
 		flex-shrink: 0
 		box-sizing: border-box
-		+display-flex
+		display: flex
 		align-content: flex-start
 		align-items: flex-start
 		&:nth-of-type(2n+1)
@@ -75,7 +75,7 @@ form
 			border-right: 1px solid $medium-grey
 			flex-grow: 10
 			justify-content: center
-			+display-flex
+			display: flex
 			&:last-of-type
 				border: none
 			select

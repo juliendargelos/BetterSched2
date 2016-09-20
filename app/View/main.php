@@ -50,9 +50,5 @@
 	<body>
 		<?= $view ?>
 		<?= js() ?>
-		<?php $ua = $_SERVER['HTTP_USER_AGENT']; ?>
-		<?php if((strpos($ua, 'iPhone') !== false || strpos($ua,'iPad') !== false || strpos($ua, 'iPod') !== false) && strpos($ua, 'OS 8_0') !== false): ?>
-			<script type="text/javascript">alert('4s test');</script>
-		<?php endif; ?>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 	background: $thin-grey url('/assets/grid.svg')
 	background-position: 0 $sched-day-name-height
 	padding: 0 0 10px 0
-	+display-flex
+	display: flex
 	user-select: none
 	.hour
 		width: 100%
@@ -41,7 +41,7 @@
 					line-height: 20px
 	.days
 		flex-grow: 10
-		+display-flex
+		display: flex
 		.day
 			//margin-top: -$sched-day-name-height
 			box-sizing: border-box
@@ -62,7 +62,7 @@
 			.courses
 				padding-right: $sched-hours-width
 				flex-wrap: wrap
-				+display-flex
+				display: flex
 				flex-direction: row
 				justify-content: flex-end
 				.course
@@ -94,14 +94,14 @@
 						background: rgb(160,160,160)
 						height: 100%
 						border-radius: 10px
-						+display-flex
+						display: flex
 						flex-direction: column
 						.name
 							padding: 10px
 							font-size: 12px
 							word-wrap: break-word
 							color: transparentize($white, 0.1)
-							+display-flex
+							display: flex
 							flex-grow: 1
 							align-items: center
 							span
@@ -111,7 +111,7 @@
 							background: transparentize($white, 0.8)
 							flex-grow: 0
 							border-radius: 0 0 8px 8px
-							+display-flex
+							display: flex
 							font-size: 11px
 							color: $white
 							.professors
