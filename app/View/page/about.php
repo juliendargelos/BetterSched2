@@ -25,7 +25,7 @@
 					<?= svg('gears') ?>
 					<h4>API</h4>
 					<p>
-						<span>L'API BetterSched' interprète puis traîte les données pour les organiser de façon organisée.</span>
+						<span>L'API BetterSched' interprète puis traîte les données pour les organiser de façon structurée.</span>
 					</p>
 				</div>
 			</article>
