@@ -165,6 +165,9 @@ var pageSched = {
 		onchange: function() {
 			pageSched.update();
 		},
+		ontouchstart: function() {
+			this.getElementsByTagName('select')[0].focus();
+		},
 		saveFilters: function() {
 			var groupFilters = this.groupFilters[this.group];
 
@@ -209,6 +212,7 @@ var pageSched = {
 					this.inputs[select.id.substr(6)] = select;
 				}
 				select.on('change', this.onchange);
+				select.parentNode.on('touchstart', this.ontouchstart);
 			}
 
 			this.update();
