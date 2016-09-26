@@ -166,6 +166,7 @@ var pageSched = {
 			pageSched.update();
 		},
 		ontouchstart: function() {
+			alert('ok');
 			this.getElementsByTagName('select')[0].focus();
 		},
 		saveFilters: function() {
