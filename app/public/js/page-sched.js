@@ -165,9 +165,9 @@ var pageSched = {
 		onchange: function() {
 			pageSched.update();
 		},
-		ontouchstart: function() {
-			alert('ok');
+		ontouchstart: function(event) {
 			this.getElementsByTagName('select')[0].focus();
+			event.stopPropagation();
 		},
 		saveFilters: function() {
 			var groupFilters = this.groupFilters[this.group];
