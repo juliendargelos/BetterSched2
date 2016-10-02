@@ -56,7 +56,7 @@
 					$callback($property, self::asJson($value));
 				});
 			}
-			return Json::encode($this);
+			return json_encode($this->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 		}
 
 		public function has($property) {

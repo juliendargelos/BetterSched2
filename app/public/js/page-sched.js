@@ -165,10 +165,6 @@ var pageSched = {
 		onchange: function() {
 			pageSched.update();
 		},
-		ontouchstart: function(event) {
-			this.getElementsByTagName('select')[0].focus();
-			event.stopPropagation();
-		},
 		saveFilters: function() {
 			var groupFilters = this.groupFilters[this.group];
 
@@ -213,7 +209,6 @@ var pageSched = {
 					this.inputs[select.id.substr(6)] = select;
 				}
 				select.on('change', this.onchange);
-				select.parentNode.on('touchstart', this.ontouchstart);
 			}
 
 			this.update();
