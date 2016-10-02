@@ -1,6 +1,6 @@
 var eventsManager = {
-	on: function(event, callback, element) {
-		element.addEventListener(event, callback, false);
+	on: function(event, callback, element, useCapture) {
+		element.addEventListener(event, callback, useCapture === undefined ? false : useCapture);
 	},
 	no: function(event, callback, element) {
 		element.removeEventListener(event, callback);

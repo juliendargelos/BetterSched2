@@ -6,6 +6,7 @@
 	use Mvc\PrettyJson;
 	use Model\User;
 	use BetterSched\Cookies;
+	use BetterSched\Cache;
 
 	class Api extends Controller {
 		function logged($params) {
@@ -60,50 +61,61 @@
 			if(User::$current) {
 				$user = User::$current;
 
-				$api = \BetterSched\Api::get($user->institute);
+				$message = null;
 
-				$response = $api::login([
-					'username' => $user->username,
-					'password' => $user->password
-				]);
+				$cache = new Cache($params, $user->institute, function() use($user, $params, $message) {
+					$api = \BetterSched\Api::get($user->institute);
 
-				if($response->status) {
-					$api::gpu();
-
-					$api::home([
-						'group' => $params->group,
-					]);
-
-					Cookies::$group->value = $params->group;
-
-					$response = $api::sched([
-						'group' => $params->group,
-						'week' => $params->week,
-						'year' => $params->year
+					$response = $api::login([
+						'username' => $user->username,
+						'password' => $user->password
 					]);
 
 					if($response->status) {
-						if($params->has('filter')) {
-							$filter = \BetterSched\Filter::get($user->institute);
-							if(class_exists($filter)) {
-								$g = $api::$groups[$params->group];
-								if(array_key_exists('filter', $g)) {
-									$filter::on($response->data, $g['filter'], $params->filter);
+						$api::gpu();
+
+						$api::home([
+							'group' => $params->group,
+						]);
+
+						Cookies::$group->value = $params->group;
+
+						$response = $api::sched([
+							'group' => $params->group,
+							'week' => $params->week,
+							'year' => $params->year
+						]);
+
+						if($response->status) {
+							if($params->has('filter')) {
+								$filter = \BetterSched\Filter::get($user->institute);
+								if(class_exists($filter)) {
+									$g = $api::$groups[$params->group];
+									if(array_key_exists('filter', $g)) {
+										$filter::on($response->data, $g['filter'], $params->filter);
+									}
 								}
 							}
-						}
 
-						return new Json([
-							'status' => true,
-							'sched' =>$response->data
-						]);
+							return $response->data;
+						}
+						else $message = 'Impossible d\'obtenir l\'emploi du temps';
 					}
-					else return new Json([
-						'status' => false,
-						'message' => 'Impossible d\'obtenir l\'emploi du temps'
+					else User::logout();
+				});
+
+				if($cache->data != null) {
+					return new Json([
+						'status' => true,
+						'sched' => $cache->data
 					]);
 				}
-				else User::logout();
+				else {
+					return new Json([
+						'status' => false,
+						'message' => $message
+					]);
+				}
 			}
 			return new Json([
 				'status' => false,
