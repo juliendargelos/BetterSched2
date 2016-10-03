@@ -1,5 +1,5 @@
 var local = {
-	lifetime: 600000,
+	lifetime: 86400000,
 	available: function() {
 		return typeof localStorage === 'object' && localStorage !== null;
 	},
@@ -25,7 +25,13 @@ var local = {
 		return localStorage.setItem(key, this.serialize(value));
 	},
 	get: function(key) {
-		var data = this.unserialize(localStorage.getItem(key));
+		var data = this.data(key);
+		return this.update(data)
+	},
+	data: function(key) {
+		return this.unserialize(localStorage.getItem(key));
+	},
+	update: function(data) {
 		if(data === null) return null;
 
 		if(this.expired(data)) {
@@ -40,6 +46,15 @@ var local = {
 	expired: function(data) {
 		return (new Date).getTime() - data.timestamp >= this.lifetime;
 	},
+	clean: function() {
+		var length = localStorage.length;
+		for(var i = 0; i < length; i++) {
+			var key = localStorage.key(i);
+			var data = this.data(key);
+
+			if(this.expired(data)) this.remove(key);
+		}
+	},
 	init: function() {
 		if(!this.available()) {
 			window.localStorage = {
@@ -47,6 +62,8 @@ var local = {
 				setitem: function() {}
 			};
 		}
+
+		this.clean();
 	}
 };
 
