@@ -60,6 +60,7 @@
 
 <script type="text/javascript">
 	var api = {
+		institute: '<?= addcslashes($institute, '\'') ?>',
 		hourBegin: <?= $hourBegin ?>,
 		hourEnd: <?= $hourEnd ?>,
 		minuteInterval: <?= $minuteInterval ?>,

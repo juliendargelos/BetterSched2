@@ -29,20 +29,36 @@ var sched = {
 				group: group
 			};
 
+			var stored = this.stored(this.currentParams);
+
+			if(stored) {
+				self.manageResponse({
+					status: true,
+					sched: stored
+				}, filters, callback)
+			}
+
 			this.request.url = this.urlFor(year, week, group);
 
 			this.request.success(function(response) {
 				if(response.status) {
-					self.current = response.sched;
-					var schedule = JSON.parse(JSON.stringify(response.sched));
-					schedule.days = self.filter(schedule.days, filters);
-					callback(response.status, schedule);
+					self.manageResponse(response, filters, callback)
+					self.store(self.currentParams, response.sched);
 				}
-				else callback(response.status, response);
-			}).error(function() {
-				callback(response.status, 'Erreur réseau');
+				else {
+					callback(response.status, response, stored !== null);
+				}
+			}).error(function(response) {
+				callback(response.status, {message: 'Erreur réseau'}, stored !== null);
 			}).send();
 		}
+	},
+	manageResponse: function(response, filters, callback) {
+		this.current = response.sched;
+		var schedule = JSON.parse(JSON.stringify(response.sched));
+		schedule.days = this.filter(schedule.days, filters);
+
+		callback(response.status, schedule);
 	},
 	coursesById: function(courses) {
 		var coursesById = {};
@@ -53,6 +69,17 @@ var sched = {
 		}
 
 		return coursesById;
+	},
+	key: function(params) {
+		return 'sched:'+api.institute+','+params.year+','+params.week+','+params.group;
+	},
+	stored: function(params) {
+		var key = this.key(params);
+		return local.get(key);
+	},
+	store: function(params, schedule) {
+		var key = this.key(params);
+		return local.set(key, schedule);
 	},
 	compute: {
 		duration: function(course) {

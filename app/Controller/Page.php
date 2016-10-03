@@ -51,6 +51,7 @@
 			$now = \Date\Date::now();
 
 			return new Response([
+				'institute' => User::$current->institute,
 				'hourBegin' => Api::HOUR_BEGIN,
 				'hourEnd' => Api::HOUR_END,
 				'minuteInterval' => Api::MINUTE_INTERVAL,

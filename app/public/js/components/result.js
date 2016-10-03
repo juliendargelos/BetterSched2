@@ -4,6 +4,7 @@ var result = {
 	stack: [],
 	last: 0,
 	duration: 4000,
+	transition: 250,
 	get message() {
 		return this.p.innerText;
 	},
@@ -14,6 +15,22 @@ var result = {
 	get delta() {
 		return (new Date).getTime() - this.last - this.duration;
 	},
+	onclick: function() {
+		var self = this;
+		this.element.className = 'out';
+		setTimeout(function() {
+			self.out();
+		}, this.transition);
+	},
+	out: function() {
+		if(this.element.parentNode) this.element.parentNode.removeChild(this.element);
+		if(this.stack.length > 0) {
+			var message = this.stack[0];
+			this.stack = this.stack.slice(1);
+			this.element.className = '';
+			this.set(message);
+		}
+	},
 	set: function(message) {
 		var self = this;
 
@@ -23,17 +40,14 @@ var result = {
 			this.message = message;
 			document.body.appendChild(this.element);
 			setTimeout(function() {
-				if(self.element.parentNode) self.element.parentNode.removeChild(self.element);
-				if(self.stack.length > 0) {
-					var message = self.stack[0];
-					self.stack = self.stack.slice(1);
-					self.set(message);
-				}
+				self.out();
 			}, this.duration);
 		}
 		else this.stack.push(message)
 	},
 	init: function() {
+		var self = this;
+
 		this.element = document.createElement('div');
 		this.p = document.createElement('p');
 
@@ -42,6 +56,15 @@ var result = {
 
 		this.element.id = 'result';
 		this.element.appendChild(wrapper);
+
+		this.element.on('click', function() {
+			self.onclick();
+		});
+
+		this.element.on('touchstart', function() {
+			self.onclick();
+		});
+
 		wrapper.appendChild(this.p);
 	}
 };

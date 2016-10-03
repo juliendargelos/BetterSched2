@@ -9,6 +9,7 @@
 // @import components/links
 // @import components/RegParser
 // @import components/cookies
+// @import components/local
 
 var pageSched = {
 	spinner: new Spinner,
@@ -221,13 +222,16 @@ var pageSched = {
 		this.loading = true;
 		if(typeof callback != 'function') callback = function(){};
 
-		sched.get(year, week, group, this.filters, function(status, schedule) {
+		sched.get(year, week, group, this.filters, function(status, schedule, stored) {
 			if(status) {
 				self.clear();
 				sched.constructor.insert(schedule.days);
 				callback();
 			}
-			else result.set(schedule.message);
+			else {
+				result.set(schedule.message);
+				if(!stored) self.clear();
+			}
 
 			self.loading = false;
 		});

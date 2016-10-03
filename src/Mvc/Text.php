@@ -2,7 +2,7 @@
 	namespace Mvc;
 
 	class Text extends Response {
-		private $content;
+		protected $content;
 
 		public function __construct($content = '', $status = 200) {
 			$this->content = is_array($content) ? implode("\n", $content) : $content;

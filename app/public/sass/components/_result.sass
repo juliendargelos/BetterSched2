@@ -19,6 +19,8 @@
 		line-height: 50px
 		will-change: box-shadow
 		animation: result-shadow 0.08*4s 1
+	&.out
+		animation: result-out 0.25s 1
 
 @keyframes result
 	0%
@@ -28,6 +30,14 @@
 		opacity: 1
 		transform: translateY(0)
 	92%
+		opacity: 1
+		transform: translateY(0)
+	100%
+		opacity: 1
+		transform: translateY(-100px)
+
+@keyframes result-out
+	0%
 		opacity: 1
 		transform: translateY(0)
 	100%

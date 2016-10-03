@@ -9,6 +9,8 @@
 	use BetterSched\Cache;
 
 	class Api extends Controller {
+		private $message;
+
 		function logged($params) {
 			return new Json([
 				'status' => User::$current != false
@@ -61,9 +63,9 @@
 			if(User::$current) {
 				$user = User::$current;
 
-				$message = null;
+				$this->message = null;
 
-				$cache = new Cache($params, $user->institute, function() use($user, $params, $message) {
+				$cache = new Cache($params, $user->institute, function() use($user, $params) {
 					$api = \BetterSched\Api::get($user->institute);
 
 					$response = $api::login([
@@ -99,9 +101,12 @@
 
 							return $response->data;
 						}
-						else $message = 'Impossible d\'obtenir l\'emploi du temps';
+						else $this->message = 'Impossible d\'obtenir l\'emploi du temps';
 					}
-					else User::logout();
+					else {
+						$this->message = 'Vous n\'êtes pas connecté';
+						User::logout();
+					}
 				});
 
 				if($cache->data != null) {
@@ -113,7 +118,7 @@
 				else {
 					return new Json([
 						'status' => false,
-						'message' => $message
+						'message' => $this->message
 					]);
 				}
 			}
