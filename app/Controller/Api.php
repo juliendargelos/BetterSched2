@@ -53,13 +53,6 @@
 		}
 
 		function sched($params) {
-			//B:DEV
-			// return new Json([
-			// 	'status' => true,
-			// 	'sched' => json_decode(file_get_contents(__DIR__.'/../dev.sched.json'))
-			// ]);
-			//E:DEV
-
 			if(User::$current) {
 				$user = User::$current;
 
