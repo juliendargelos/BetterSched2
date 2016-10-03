@@ -7,6 +7,8 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^bettersched\.herokuapp\.com$
 RewriteRule ^.* http://beta.bettersched.fr  [QSA,L,R=301]
 
+RewriteRule ^index\.php(\?.*|)$ / [QSA,L,R=301]
+
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} !^/assets/ [or]
 RewriteCond %{REQUEST_FILENAME} !-f
