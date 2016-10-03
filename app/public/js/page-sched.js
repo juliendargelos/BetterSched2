@@ -60,7 +60,8 @@ var pageSched = {
 
 					filters.push({
 						test: filter.test,
-						match: RegParser.compile(filter.match),
+						contain: this.matcher(filter.match),
+						dontContain: this.matcher(filter.dontMatch, true),
 						value: RegParser.compile(filter.list[filterInput.value])
 					});
 				}
@@ -68,6 +69,26 @@ var pageSched = {
 		}
 
 		return filters;
+	},
+	matcher: function(matcher, dont) {
+		if(typeof matcher != 'string') {
+			return function() {
+				return true;
+			};
+		}
+		else {
+			var matcher = RegParser.compile(matcher);
+			if(dont === true) {
+				return function(test) {
+					return test.match(matcher) === null;
+				};
+			}
+			else {
+				return function(test) {
+					return test.match(matcher) !== null;
+				};
+			}
+		}
 	},
 	update: function(callback) {
 		var self = this;

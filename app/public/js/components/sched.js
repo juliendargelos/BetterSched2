@@ -121,7 +121,7 @@ var sched = {
 					var filter = filters[j];
 					var test = course[filter.test];
 
-					if(test.match(filter.match)) {
+					if(filter.contain(test) && filter.dontContain(test)) {
 						if(test.match(filter.value)) {
 							if(!pushed) {
 								filtered[dayName].push(course);

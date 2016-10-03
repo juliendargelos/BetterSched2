@@ -9,6 +9,7 @@
 				'TD' => [
 					'test' => 'name',
 					'match' => '/\bTD\d\b/i',
+					'dontMatch' => '/\b(espagnol|langue vivante 2|lv2)\b/i',
 					'list' => [
 						'1' => '/\bTD1\b/i',
 						'2' => '/\bTD2\b/i'
@@ -37,6 +38,7 @@
 				'TD' => [
 					'test' => 'name',
 					'match' => '/\bTD\d\b/i',
+					'dontMatch' => '/\b(espagnol|langue vivante 2|lv2)\b/i',
 					'list' => [
 						'3' => '/\bTD3\b/i',
 						'4' => '/\bTD4\b/i'
