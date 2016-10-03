@@ -3,7 +3,7 @@
 
 	abstract class Options {
 		const GENERATE = true;
-		const REMOVE = false;
+		const REMOVE = true;
 		const DELIMITER = '-';
 		const DESTINATION = __DIR__.'/../..';
 		const WEB_DESTINATION = '';

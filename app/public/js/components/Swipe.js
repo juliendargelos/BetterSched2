@@ -77,16 +77,48 @@ var Swipe = function(element) {
 	this.lastPosition = 0;
 	this.disabled = false;
 
+	this.coordinates = function(event) {
+		if(this.type == 'touch') {
+			if(event.pageX !== undefined && event.pageY !== undefined) {
+				return {
+					x: event.pageX,
+					y: event.pageY
+				};
+			}
+			else if(event.touches !== undefined && event.touches.length > 0) {
+				return {
+					x: event.touches[0].pageX,
+					y: event.touches[0].pageY
+				};
+			}
+			else if(event.changedTouches !== undefined && event.changedTouches.length > 0) {
+				return {
+					x: event.changedTouches[0].pageX,
+					y: event.changedTouches[0].pageY
+				};
+			}
+			else {
+				return {
+					x: 0,
+					y: 0
+				};
+			}
+		}
+		else {
+			return {
+				x: event.pageX,
+				y: event.pageY
+			};
+		}
+	};
+
 	this.swipping = function(event) {
 		self.move(event);
 	};
 
 	this.start = function(event) {
 		if(!this.disabled) {
-			this.touchInit = {
-				x: this.type == 'touch' ? event.pageX : event.clientX,
-				y: this.type == 'touch' ? event.pageY : event.clientY
-			};
+			this.touchInit = this.coordinates(event);
 
 			this.currentPosition = this.lastPosition = this.position;
 			this.starting = true;
@@ -98,21 +130,22 @@ var Swipe = function(element) {
 	};
 
 	this.move = function(event) {
-		if(this.starting && this.type == 'touch' && Math.abs(event.pageY-this.touchInit.y) > Math.abs(event.pageX-this.touchInit.x)) this.end();
+		var coordinates = this.coordinates(event);
+
+		if(this.starting && this.type == 'touch' && Math.abs(coordinates.y-this.touchInit.y) > Math.abs(coordinates.x-this.touchInit.x)) this.end(event, true);
 		else {
 			this.lastPosition = this.position;
-			console.log(((this.type == 'touch' ? event.pageX : event.clientX)-this.touchInit.x));
-			this.position = this.currentPosition+((this.type == 'touch' ? event.pageX : event.clientX)-this.touchInit.x);
+			this.position = this.currentPosition+(coordinates.x-this.touchInit.x);
 			this.starting = false;
 			event.preventDefault();
 		}
 	};
 
-	this.end = function(event) {
+	this.end = function(event, move) {
 		if(!this.disabled) {
 			var self = this;
 
-			this.move(event);
+			if(move !== true) this.move(event);
 
 			no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
 
