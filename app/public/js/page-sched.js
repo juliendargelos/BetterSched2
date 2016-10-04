@@ -17,7 +17,6 @@ var pageSched = {
 	days: document.getElementsByClassName('days')[0],
 	breakpoint: 1060,
 	mobile: false,
-	defaultDaySet: false,
 	message: {
 		element: document.createElement('span'),
 		all: [
@@ -247,6 +246,7 @@ var pageSched = {
 			if(status) {
 				self.clear();
 				sched.constructor.insert(schedule.days);
+				if(self.form.week == api.defaultWeek) self.swipe.page = api.defaultDay - 1;
 				callback();
 			}
 			else {
@@ -264,10 +264,6 @@ var pageSched = {
 			this.mobile = false;
 		}
 		else if(window.innerWidth < this.breakpoint && !this.mobile) {
-			if(!this.defaultDaySet) {
-				this.swipe.page = api.defaultDay - 1;
-				this.defaultDaySet = true;
-			}
 			this.mobile = true;
 			this.swipe.disabled = false;
 		}

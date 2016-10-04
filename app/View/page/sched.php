@@ -67,6 +67,7 @@
 		middleMinute: <?= $middleMinute ?>,
 		days: ['<?= implode($days, '\',\'') ?>'],
 		defaultDay: <?= $default['day'] ?>,
+		defaultWeek: <?= $default['week'] ?>,
 		filters: <?= $filters ?>,
 		groupFilters: <?= $groupFilters ?>
 	};

@@ -29,6 +29,12 @@ var Swipe = function(element) {
 				var firstElement = this.firstElement;
 
 				if(firstElement) {
+					var currentPosition = this.currentPage*this.pageWidth;
+					var currentDelta = v - currentPosition;
+
+					if(currentDelta > this.pageWidth) v = currentPosition+this.pageWidth;
+					else if(currentDelta < -this.pageWidth) v = currentPosition-this.pageWidth;
+
 					firstElement.style.marginLeft = v+'px';
 				}
 			},
@@ -60,6 +66,16 @@ var Swipe = function(element) {
 				return this.position/this.pageWidth;
 			}
 		},
+		speed: {
+			get: function() {
+				return this.delta/this.pageWidth*this.speedFactor;
+			}
+		},
+		delta: {
+			get: function() {
+				return this.position - this.lastPosition;
+			}
+		},
 		currentPage: {
 			get: function() {
 				return this.currentPosition/this.pageWidth;
@@ -69,13 +85,14 @@ var Swipe = function(element) {
 
 	this.element = element;
 	this.transition = 200;
-	this.speedFactor = 10;
+	this.speedFactor = 20000;
 	this.touchInit = 0;
 	this.currentPage = 0;
 	this.type = 'touch';
 	this.starting = false;
 	this.lastPosition = 0;
 	this.disabled = false;
+	this.scrolling = false;
 
 	this.coordinates = function(event) {
 		if(this.type == 'touch') {
@@ -118,6 +135,7 @@ var Swipe = function(element) {
 
 	this.start = function(event) {
 		if(!this.disabled) {
+			this.scrolling = false;
 			this.touchInit = this.coordinates(event);
 
 			this.currentPosition = this.lastPosition = this.position;
@@ -130,12 +148,17 @@ var Swipe = function(element) {
 	};
 
 	this.move = function(event) {
+		if(this.scrolling) return;
+
 		var coordinates = this.coordinates(event);
 
-		if(this.starting && this.type == 'touch' && Math.abs(coordinates.y-this.touchInit.y) > Math.abs(coordinates.x-this.touchInit.x)) this.end(event, true);
+		if(this.starting && this.type == 'touch' && Math.abs(coordinates.y - this.touchInit.y) > Math.abs(coordinates.x - this.touchInit.x)) {
+			this.scrolling = true;
+			this.end(event, true);
+		}
 		else {
 			this.lastPosition = this.position;
-			this.position = this.currentPosition+(coordinates.x-this.touchInit.x);
+			this.position = this.currentPosition + (coordinates.x - this.touchInit.x);
 			this.starting = false;
 			event.preventDefault();
 		}
@@ -145,21 +168,23 @@ var Swipe = function(element) {
 		if(!this.disabled) {
 			var self = this;
 
-			if(move !== true) this.move(event);
+			if(move !== true) {
+				this.move(event);
 
-			no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
+				var page = -(this.position+this.speed)/this.pageWidth;
+				this.page = page;
 
-			var page = -this.position/this.pageWidth;
-			this.page = page;
-
-			if(page != Math.round(page)) {
-				if(!this.element.className.match(/\btransition\b/)) {
-					this.element.className += ' transition';
-					setTimeout(function() {
-						self.element.className = self.element.className.replace(/\btransition\b/, '');
-					}, this.transition);
+				if(page != Math.round(page)) {
+					if(!this.element.className.match(/\btransition\b/)) {
+						this.element.className += ' transition';
+						setTimeout(function() {
+							self.element.className = self.element.className.replace(/\btransition\b/, '');
+						}, this.transition);
+					}
 				}
 			}
+
+			no(this.type == 'touch' ? 'touchmove' : 'mousemove', this.swipping);
 
 			this.disableEndListener();
 		}
