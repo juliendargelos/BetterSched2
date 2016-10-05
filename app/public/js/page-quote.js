@@ -11,7 +11,7 @@ var pageQuote = {
 	spinner: new Spinner,
 	inputs: {},
 	set sending(v) {
-		this.element.className = v ? 'logging' : '';
+		this.element.className = v ? 'sending' : '';
 
 		if(v) this.spinner.show();
 		else this.spinner.hide();
@@ -26,11 +26,14 @@ var pageQuote = {
 		this.sending = true;
 
 		this.request.success(function(response) {
-			console.log(response);
+			self.sending = false;
+			
 			result.set(response.message);
 			if(response.status) self.clear();
 			this.sending = false;
 		}).error(function(response) {
+			self.sending = false;
+
 			if(response) result.set(response.message);
 			else result.set('Erreur du serveur');
 			this.sending = false;

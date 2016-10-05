@@ -100,7 +100,7 @@
 
 								if(Quote::save()) {
 									\Mailer\Quote::notifyModerator($quote);
-									
+
 									return new Json([
 										'status' => true,
 										'message' => 'Votre citation est en attente de validation'
