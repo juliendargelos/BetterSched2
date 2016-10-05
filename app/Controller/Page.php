@@ -92,13 +92,15 @@
 								$content = preg_replace('/^\s*["«]\s*"/', '', $post->content);
 								$content = preg_replace('/\s*["»]\s*$/', '', $post->content);
 
-								new Quote([
+								$quote = new Quote([
 									'author' => $author,
 									'email' => $email,
 									'content' => $content
 								]);
 
 								if(Quote::save()) {
+									\Mailer\Quote::notifyModerator($quote);
+									
 									return new Json([
 										'status' => true,
 										'message' => 'Votre citation est en attente de validation'
@@ -132,6 +134,27 @@
 				]);
 			}
 			else return new Response;
+		}
+
+		public function validateQuote($params) {
+			$message = 'Cette citation n\'existe pas';
+
+			if($quote = Quote::find($params->id)) {
+				if($quote->key == $params->key) {
+					if($quote->pending) {
+						$quote->validate();
+						$quote->add();
+						Quote::save();
+						$message = 'La citation a été approuvée';
+						\Mailer\Quote::notifyAuthor($quote);
+					}
+					else $message = 'La citation a déjà été approuvée';
+				}
+			}
+
+			return new Response([
+				'message' => $message
+			]);
 		}
 	}
 ?>

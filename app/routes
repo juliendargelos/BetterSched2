@@ -1,7 +1,8 @@
 get / page.home
 get /about page.about
-// get /quote page.quote
-// post /quote page.quote
+get /quote page.quote
+post /quote page.quote
+get /quote/validate/$id/$key page.validateQuote
 get /logout page.logout
 
 post /api/login api.login

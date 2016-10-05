@@ -92,7 +92,7 @@
 
 		private static function setParams($path, $params) {
 			foreach($params as $param => $value) {
-				$path = preg_replace(preg_quote(self::$delimiter.$param).'([^/])?', $value.'$1', $path);
+				$path = preg_replace('/'.preg_quote(self::$delimiter.$param, '/').'([^\/])?/', $value.'$1', $path);
 			}
 
 			return $path;

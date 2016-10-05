@@ -26,6 +26,7 @@ var pageQuote = {
 		this.sending = true;
 
 		this.request.success(function(response) {
+			console.log(response);
 			result.set(response.message);
 			if(response.status) self.clear();
 			this.sending = false;

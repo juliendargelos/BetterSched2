@@ -6,7 +6,7 @@
 		</a>
 	<?php endif ?>
 	<nav>
-		<?php if(false && Model\User::$current): // Soon ?>
+		<?php if(false && Model\User::$current): ?>
 			<?= alink(svg('quote').'<span>Citation</span>', 'page', 'quote') ?>
 		<?php endif ?>
 		<?= alink(svg('about').'<span>À propos</span>', 'page', 'about') ?>
