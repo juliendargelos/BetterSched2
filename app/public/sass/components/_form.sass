@@ -26,6 +26,7 @@ form
 		display: flex
 		align-content: center
 		align-items: center
+		flex-wrap: wrap
 		label, input, select, textarea
 			background: transparent
 			margin: 0
@@ -45,6 +46,12 @@ form
 			padding-left: 0
 			flex-grow: 1
 			flex-shrink: 1
+		textarea
+			box-sizing: border-box
+			width: 100%
+			flex-shrink: 0
+			display: block
+			resize: none
 	+form-submit
 		background: transparent
 		width: 100%

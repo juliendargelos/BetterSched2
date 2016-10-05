@@ -246,7 +246,8 @@ var pageSched = {
 			if(status) {
 				self.clear();
 				sched.constructor.insert(schedule.days);
-				if(self.form.week == api.defaultWeek) self.swipe.page = api.defaultDay - 1;
+				self.onresize();
+				if(self.form.week == api.defaultWeek && self.mobile) self.swipe.page = api.defaultDay - 1;
 				callback();
 			}
 			else {
@@ -257,8 +258,8 @@ var pageSched = {
 			self.loading = false;
 		});
 	},
-	onresize: function(init) {
-		if(window.innerWidth > this.breakpoint && (this.mobile || init === true)) {
+	onresize: function() {
+		if(window.innerWidth > this.breakpoint && this.mobile) {
 			this.swipe.page = 0;
 			this.swipe.disabled = true;
 			this.mobile = false;
@@ -281,9 +282,7 @@ var pageSched = {
 		this.message.init();
 		this.form.init();
 
-		this.update(function() {
-			self.onresize(true);
-		});
+		this.update();
 	}
 };
 

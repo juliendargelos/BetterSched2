@@ -1,0 +1,87 @@
+@import load/_variables.sass
+@import load/_utils.sass
+
+@import components/_reset.sass
+@import components/_main.sass
+@import components/_header.sass
+@import components/_result.sass
+@import components/_logo.sass
+@import components/_wrapper.sass
+@import components/_form.sass
+
+main
+	padding-top: 100px
+	margin-top: 10vw
+
+h2
+	margin-bottom: 30px
+	font-size: 13px
+	color: $white
+	text-align: center
+	text-transform: uppercase
+	line-height: 20px
+	letter-spacing: 5px
+
+form
+	background: $white
+	border-radius: 13px
+	box-shadow: 0 5px 30px transparentize($black, 0.84)
+	.field
+		margin: 0 20px
+		padding: 7px 0
+		border-bottom: 1px solid $light-grey
+		&:last-of-type
+			background: $white
+			margin: 0
+			padding: 7px 20px
+			border-radius: 0 0 13px 13px
+			border-bottom: none
+			z-index: 1
+			position: relative
+		&:first-of-type
+			padding-top: 10px
+		&:last-of-type
+			padding-bottom: 10px
+		input, textarea
+			box-sizing: border-box
+			color: $grey
+			+autofill
+				+autofill-color($grey)
+				+autofill-background($white)
+			&:not(#quote-name):not(#quote-content)::placeholder
+				color: transparent
+		textarea
+			height: 50px
+	input[type="submit"]
+		background: $medium-grey
+		width: 100%
+		padding: 15px 0
+		border-radius: 0 0 13px 13px
+		cursor: pointer
+		display: block
+		font-size: 10px
+		font-weight: bold
+		color: $brand
+		text-align: center
+		text-transform: uppercase
+		line-height: 20px
+		letter-spacing: 1px
+	.field, input[type="submit"]
+		transition: 0.2s 0.1s
+	&.sending
+		.field, input[type="submit"]
+			opacity: 0.3
+			transition: 0.2s 0.05s
+	+form-column(small)
+	+form-color($brand)
+	+max(small)
+		.field
+			label
+				display: none
+			input
+				width: 100%
+			input, textarea
+				&:not(#quote-name):not(#quote-content)::placeholder, &#quote-content::placeholder
+					color: $brand
+			textarea
+				height: 84px

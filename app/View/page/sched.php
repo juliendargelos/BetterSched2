@@ -33,6 +33,13 @@
 	</div>
 	<div class="filters"></div>
 </form>
+<?php if($quote !== null): ?>
+	<div class="quote">
+		<div class="wrapper">
+			<span class="content"><?= $quote['content'] ?></span>&nbsp;—&nbsp;<span class="author"><?= $quote['author'] === null ? 'Anonyme' : $quote['author'] ?></span>
+		</div>
+	</div>
+<?php endif; ?>
 
 <main class="sched">
 	<section class="hours">

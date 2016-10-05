@@ -3,12 +3,12 @@
 
 @import components/_reset.sass
 @import components/_main.sass
+@import components/_header.sass
 @import components/_result.sass
 @import components/_logo.sass
 @import components/_wrapper.sass
 @import components/_sched.sass
 @import components/_spinner.sass
-@import components/_header.sass
 
 body
 	background: $thin-grey
@@ -85,11 +85,26 @@ form
 			&[data-empty]
 				display: none
 
-main, form, .days
+.quote
+	background: $medium-grey
+	padding: 12px 0
+	font-size: 13px
+	font-family: $serif
+	font-size: 12px
+	font-style: italic
+	text-align: center
+	line-height: 16px
+	.content
+		&::before, &::after
+			content: '"'
+
+main, form, .quote, .days
 	transition: 0.3s
 
 body.loading
 	form
+		opacity: 0.3
+	.quote
 		opacity: 0.3
 	main
 		opacity: 0.3

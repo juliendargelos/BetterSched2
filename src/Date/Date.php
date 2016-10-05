@@ -165,6 +165,10 @@
 			return $this->getDatetime()->format('W');
 		}
 
+		protected function getHash() {
+			return md5($this->getYear().'.'.$this->getMonth().'.'.$this->getDay());
+		}
+
 		protected function getString() {
 			return ucfirst($this->getDayName()).' '.$this->getDay().' '.ucfirst($this->getMonthName()).' '.$this->getYear();
 		}

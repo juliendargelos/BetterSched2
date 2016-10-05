@@ -3,12 +3,13 @@
 
 @import components/_reset.sass
 @import components/_main.sass
+@import components/_header.sass
 @import components/_result.sass
 @import components/_logo.sass
 @import components/_wrapper.sass
 @import components/_form.sass
 @import components/_spinner.sass
-@import components/_header.sass
+
 
 body
 	overflow: hidden
@@ -58,8 +59,6 @@ main
 					+autofill-background($white)
 				&::placeholder
 					color: transparent
-				&[value="test"]
-					color: red
 			input, label, select
 				transition: 0.2s 0.1s
 		&.logging .field

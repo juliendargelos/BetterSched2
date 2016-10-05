@@ -5,6 +5,7 @@ var result = {
 	last: 0,
 	duration: 4000,
 	transition: 250,
+	timeout: null,
 	get message() {
 		return this.p.innerText;
 	},
@@ -18,7 +19,8 @@ var result = {
 	onclick: function() {
 		var self = this;
 		this.element.className = 'out';
-		setTimeout(function() {
+		clearTimeout(this.timeout);
+		this.timeout = setTimeout(function() {
 			self.out();
 		}, this.transition);
 	},
@@ -27,7 +29,6 @@ var result = {
 		if(this.stack.length > 0) {
 			var message = this.stack[0];
 			this.stack = this.stack.slice(1);
-			this.element.className = '';
 			this.set(message);
 		}
 	},
@@ -38,12 +39,13 @@ var result = {
 		if(delta > 0) {
 			this.last = (new Date).getTime();
 			this.message = message;
+			this.element.className = '';
 			document.body.appendChild(this.element);
-			setTimeout(function() {
+			this.timeout = setTimeout(function() {
 				self.out();
 			}, this.duration);
 		}
-		else this.stack.push(message)
+		else this.stack.push(message);
 	},
 	init: function() {
 		var self = this;
