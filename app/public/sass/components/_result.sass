@@ -1,6 +1,5 @@
 #result
 	width: 100%
-	height: $result-height
 	@if $header-loaded
 		top: $result-top + $header-height
 	@else
@@ -15,8 +14,7 @@
 	animation: result 4s 1
 	p
 		background: transparentize($white, 0.05)
-		height: $result-height
-		padding: 0 20px
+		padding: 20px
 		border-radius: 8px
 		box-shadow: 0 15px 30px transparentize($black, 0.85)
 		font-size: 14px
@@ -24,7 +22,7 @@
 		backdrop-filter: blur(20px)
 		color: $brand
 		text-align: center
-		line-height: 50px
+		line-height: 18px
 		will-change: box-shadow
 		animation: result-shadow 0.08*4s 1
 	&.out
@@ -41,7 +39,7 @@
 		opacity: 1
 		transform: translateY(0)
 	100%
-		opacity: 1
+		opacity: 0
 		transform: translateY(-200px)
 
 @keyframes result-out
@@ -49,7 +47,7 @@
 		opacity: 1
 		transform: translateY(0)
 	100%
-		opacity: 1
+		opacity: 0
 		transform: translateY(-200px)
 
 @keyframes result-shadow
