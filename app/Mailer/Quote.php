@@ -2,29 +2,57 @@
 	namespace Mailer;
 
 	use Mvc\Route;
+	use BetterSched\Mail;
 
 	class Quote {
 		const MODERATOR = 'contact@bettersched.fr';
+		const TEMPLATE = __DIR__.'/mailer-quote.php';
+
+		private static function template($var) {
+			foreach($var as $name => $value) $$name = $value;
+			ob_start();
+			require_once self::TEMPLATE;
+
+			return ob_get_clean();
+		}
 
 		static public function notifyModerator(\Model\Quote $quote) {
-			$message = $quote->author === null ? 'Un utilisateur anonyme' : $quote->author;
-			$message .= ' a posté une citation sur BetterSched\':'."\n";
-			$message .= '"'.$quote->content.'"'."\n\n";
-			$message .= 'Pour valider la citation, cliquez sur ce lien: ';
-			$message .= Route::url('page', 'validateQuote', [
+			$message = '<p>';
+			$message .= $quote->author === null ? 'Un utilisateur anonyme' : $quote->author;
+			$message .= ' a posté une citation sur BetterSched\'';
+			$message .= '</p>';
+			$message .= '<blockquote>'.$quote->content.'</blockquote>';
+			$message .= '<a class="button" href="'.htmlentities('http://'.$_SERVER['HTTP_HOST'].Route::url('page', 'validateQuote', [
 				'id' => $quote->id,
 				'key' => $quote->key
+			])).'">Valider la citation</a>';
+
+			$subject = 'Citation sur BetterSched\'';
+
+			$html = self::template([
+				'subject' => $subject,
+				'message' => $message
 			]);
 
-			mail(self::MODERATOR, 'Une citation a été postée sur BetterSched\'', $message);
+			return (new Mail(self::MODERATOR, $subject, $html))->send();
 		}
 
 		static public function notifyAuthor(\Model\Quote $quote) {
-			$message = 'Salut toi, ta citation sur BetterSched\' a été approuvée ! ';
-			$message .= 'Elle sera postée bientôt...'."\n";
-			$message .= 'Bises.';
+			if(Mail::add($quote->email)) {
+				$message = '<p>Salut toi, ta citation sur BetterSched\' a été approuvée !</p>';
+				$message .= '<blockquote>'.$quote->content.'</blockquote>';
+				$message .= '<p>Elle sera postée bientôt, bises.</p>';
 
-			mail($quote->email, 'Citation approuvée sur BetterSched\'', $message);
+				$subject = 'Citation approuvée sur BetterSched\'';
+
+				$html = self::template([
+					'subject' => $subject,
+					'message' => $message
+				]);
+
+				return (new Mail($quote->email, $subject, $html))->send();
+			}
+			else return false;
 		}
 	}
 ?>

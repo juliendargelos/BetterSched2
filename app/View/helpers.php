@@ -53,6 +53,14 @@
 		return '<link rel="stylesheet" type="text/css" href="'.addcslashes(Css::file($files), '"').'">';
 	}
 
+	function style(...$files) {
+		$style = '<style type="text/css">';
+		foreach($files as $file) $style .= file_get_contents(__DIR__.'/../..'.Css::file($files));
+		$style .=  '</style>';
+
+		return $style;
+	}
+
 	function js(...$files) {
 		if(count($files == 0)) $files = [Route::$current->controller.'-'.Route::$current->action];
 		return '<script type="text/javascript" src="'.addcslashes(Js::file($files), '"').'"></script>';
