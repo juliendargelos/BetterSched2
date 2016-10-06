@@ -1,5 +1,8 @@
+<?php
+	$title = 'Soumettre une citation';
+	$description = 'Soumettez votre citation, elle sera affichée durant une journée sur BetterSched\' !';
+?>
 <?= partial('header') ?>
-
 <main>
 	<div class="wrapper medium">
 		<h2>Poster une citation</h2>
