@@ -46,12 +46,15 @@ form
 			padding-bottom: 10px
 		input, textarea
 			box-sizing: border-box
-			color: $grey
+			color: $light-grey
 			+autofill
 				+autofill-color($grey)
 				+autofill-background($white)
-			&:not(#quote-name):not(#quote-content)::placeholder
+			&::placeholder
 				color: transparent
+			&#quote-author, &#quote-content
+				&::placeholder
+					color: $light-grey
 		textarea
 			height: 50px
 	input[type="submit"]
