@@ -50,6 +50,8 @@
 		<meta property="og:image:height" content="530">
 		<meta property="og:description" content="<?= htmlentities($description) ?>">
 
+		<meta name="google-site-verification" content="mhiS4Fs0r8skqYbrq2X8fNNqVnp_qEXZsw27Gp00MiE">
+
 		<?= css() ?>
 	</head>
 
