@@ -1,3 +1,7 @@
+<?php
+	$title = 'À propos';
+	$description = 'Qu\'est ce que BetterSched\' ? Découvrez pourquoi c\'est génial !';
+?>
 <?= partial('header') ?>
 <main>
 	<div class="wrapper">

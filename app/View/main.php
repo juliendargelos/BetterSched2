@@ -1,10 +1,16 @@
+<?php
+	if(!isset($description)) $description = 'BetterSched\' fournit une interface élégante et intuitive aux étudiants de Bordeaux qui souhaitent consulter leur emploi du temps.';
+
+	if(!isset($title)) $title = 'BetterSched\'';
+	else $title = 'BetterSched\' - '.$title;
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<title>BetterSched'</title>
-
+		<title><?= htmlentities($title) ?></title>
 		<meta charset="utf-8">
-		<meta name="description" content="BetterSched' fournit une interface élégante et intuitive aux étudiants de Bordeaux qui souhaitent consulter leur emploi du temps.">
+		<meta name="description" content="<?= htmlentities($description) ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 		<meta name="format-detection" content="telephone=no">
@@ -42,7 +48,7 @@
 		<meta property="og:image" content="http://<?= $_SERVER['SERVER_NAME'] ?>/assets/cover.png">
 		<meta property="og:image:width" content="1000">
 		<meta property="og:image:height" content="530">
-		<meta property="og:description" content="BetterSched' fournit une interface élégante et intuitive aux étudiants de Bordeaux qui souhaitent consulter leur emploi du temps.">
+		<meta property="og:description" content="<?= htmlentities($description) ?>">
 
 		<?= css() ?>
 	</head>
