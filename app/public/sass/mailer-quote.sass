@@ -1,0 +1,61 @@
+@import load/_variables.sass
+@import load/_utils.sass
+
+@import components/_reset.sass
+@import components/_main.sass
+@import components/_logo.sass
+@import components/_wrapper.sass
+@import components/_header.sass
+
+body
+	margin: 0
+	header
+		height: auto
+		padding: 50px 0
+		position: relative
+
+	.content
+		background: $white
+		padding: 30px
+		border-radius: 13px
+		box-shadow: 0 5px 30px transparentize($black, 0.84)
+		font-size: 14px
+		text-align: center
+		color: $grey
+		h2, p, blockquote
+			line-height: 20px
+			margin: 0 0 20px 0
+			&:last-child
+				margin-bottom: 0
+		h2
+			font-size: 12px
+			font-weight: bold
+			color: $brand
+			text-transform: uppercase
+			letter-spacing: 2px
+		blockquote
+			font-family: $serif
+			font-style: italic
+			&::before, &::after
+				content: '"'
+		.button
+			background: $brand
+			padding: 15px
+			border-radius: 5px
+			top: 0
+			position: relative
+			display: inline-block
+			font-size: 10px
+			font-weight: bold
+			color: $white
+			text-decoration: none
+			text-transform: uppercase
+			letter-spacing: 2px
+			box-shadow: 0 1px 2px transparentize($black, 0.8)
+			transition: 0.07s
+			&:hover
+				top: -3px
+				box-shadow: 0 6px 12px transparentize($black, 0.8)
+			&:active
+				top: 0
+				box-shadow: 0 1px 2px transparentize($black, 0.8)

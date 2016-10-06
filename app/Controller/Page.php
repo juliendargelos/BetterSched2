@@ -99,9 +99,8 @@
 								]);
 
 								if(Quote::save()) {
-									\Mailer\Quote::notifyModerator($quote);
-
 									return new Json([
+										'mail' => \Mailer\Quote::notifyModerator($quote),
 										'status' => true,
 										'message' => 'Votre citation est en attente de validation'
 									]);
