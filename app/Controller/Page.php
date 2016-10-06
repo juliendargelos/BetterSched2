@@ -135,17 +135,24 @@
 			else return new Response;
 		}
 
-		public function validateQuote($params) {
+		public function moderateQuote($params) {
 			$message = 'Cette citation n\'existe pas';
 
 			if($quote = Quote::find($params->id)) {
 				if($quote->key == $params->key) {
 					if($quote->pending) {
-						$quote->validate();
-						$quote->add();
+						if($params->action == 'validate') {
+							$quote->validate();
+							$quote->add();
+							$message = 'La citation a été approuvée';
+							\Mailer\Quote::notifyAuthorAboutValidation($quote);
+						}
+						elseif($params->action == 'remove') {
+							$quote->remove();
+							$message = 'La citation a été supprimée';
+							\Mailer\Quote::notifyAuthorAboutDeletion($quote);
+						}
 						Quote::save();
-						$message = 'La citation a été approuvée';
-						\Mailer\Quote::notifyAuthor($quote);
 					}
 					else $message = 'La citation a déjà été approuvée';
 				}
