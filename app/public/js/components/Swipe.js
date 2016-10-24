@@ -10,7 +10,7 @@ var Swipe = function(element) {
 		pageWidth: {
 			get: function() {
 				var firstElement = this.firstElement;
-				return firstElement ? firstElement.offsetWidth : 0;
+				return firstElement ? firstElement.offsetWidth : 1;
 			}
 		},
 		elements: {
@@ -63,7 +63,7 @@ var Swipe = function(element) {
 				this.position = -this.pageWidth*v;
 			},
 			get: function() {
-				return this.position/this.pageWidth;
+				return Math.round(this.position/this.pageWidth);
 			}
 		},
 		speed: {
@@ -228,7 +228,7 @@ var Swipe = function(element) {
 			});
 
 			on('resize', function() {
-				self.onresize();
+				if(!self.disabled) self.onresize();
 			});
 		}
 	};
