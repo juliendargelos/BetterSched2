@@ -258,13 +258,16 @@ var pageSched = {
 			self.loading = false;
 		});
 	},
-	onresize: function() {
-		if(window.innerWidth > this.breakpoint && this.mobile) {
-			this.swipe.page = 0;
+	onresize: function(init) {
+		var self = this;
+
+		if(window.innerWidth > this.breakpoint && (this.mobile || init === true)) {
 			this.swipe.disabled = true;
+			var firstElement = this.swipe.firstElement;
+			if(firstElement) firstElement.style.marginLeft = '0px';
 			this.mobile = false;
 		}
-		else if(window.innerWidth < this.breakpoint && !this.mobile) {
+		else if(window.innerWidth <= this.breakpoint && (!this.mobile || init === true)) {
 			this.mobile = true;
 			this.swipe.disabled = false;
 		}
@@ -282,6 +285,7 @@ var pageSched = {
 		this.message.init();
 		this.form.init();
 
+		this.onresize(true);
 		this.update();
 	}
 };

@@ -1,6 +1,6 @@
 var local = {
 	lifetime: 86400000,
-	available: function() {
+	get available() {
 		return typeof localStorage === 'object' && localStorage !== null;
 	},
 	serialize: function(data) {
@@ -56,10 +56,11 @@ var local = {
 		}
 	},
 	init: function() {
-		if(!this.available()) {
+		if(!this.available) {
 			window.localStorage = {
 				getItem: function() {},
-				setitem: function() {}
+				setitem: function() {},
+				length: 0
 			};
 		}
 

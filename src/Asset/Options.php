@@ -2,7 +2,7 @@
 	namespace Asset;
 
 	abstract class Options {
-		const GENERATE = true;
+		const GENERATE = false;
 		const REMOVE = false;
 		const DELIMITER = '-';
 		const DESTINATION = __DIR__.'/../..';
