@@ -3,10 +3,11 @@
 
 	class Mail {
 		const URI = 'https://api.mailjet.com/v3';
-		const API_PUBLIC = '12af60ee4d5a239896881aa0a6fb6f8f';
-		const API_PRIVATE = 'e05e71141bb3f2f69a720cd56c36b07a';
 		const LIST_ID = '1531186';
 		const FROM = 'contact@bettersched.fr';
+
+		private static $apiPublic;
+		private static $apiPrivate;
 
 		public $to;
 		public $subject;
@@ -57,7 +58,7 @@
 			if(self::$handle === null) {
 				self::$handle = curl_init();
 				curl_setopt(self::$handle, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt(self::$handle, CURLOPT_USERPWD, self::API_PUBLIC.':'.self::API_PRIVATE);
+				curl_setopt(self::$handle, CURLOPT_USERPWD, self::$apiPublic.':'.self::$apiPrivate);
 				curl_setopt(self::$handle, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			}
 			curl_setopt(self::$handle, CURLOPT_POST, $post);
@@ -70,6 +71,11 @@
 
 		private static function data($data) {
 			curl_setopt(self::$handle, CURLOPT_POSTFIELDS, $data);
+		}
+
+		public static function init() {
+			self::$apiPublic = getenv('MAILJET_PUBLIC');
+			self::$apiPrivate = getenv('MAILJET_PRIVATE');
 		}
 	}
 ?>
