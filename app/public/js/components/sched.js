@@ -60,16 +60,6 @@ var sched = {
 
 		callback(response.status, schedule);
 	},
-	coursesById: function(courses) {
-		var coursesById = {};
-
-		for(var i = 0; i < courses.length; i++) {
-			var course = courses[i];
-			coursesById[course.id] = course;
-		}
-
-		return coursesById;
-	},
 	key: function(params) {
 		return 'sched:'+api.institute+','+params.year+','+params.week+','+params.group;
 	},
@@ -108,7 +98,6 @@ var sched = {
 
 		for(var dayName in days) {
 			var courses = days[dayName];
-			var coursesById = this.coursesById(courses);
 
 			filtered[dayName] = [];
 
@@ -131,9 +120,13 @@ var sched = {
 						else {
 							if(pushed) filtered[dayName] = filtered[dayName].slice(0, -1);
 							for(var k = 0; k < course.parallels.length; k++) {
-								var parallel = coursesById[course.parallels[k]];
-								parallel.parallelCourses--;
-								parallel.negative[course.id] = 0;
+								for(var l = 0; l < courses.length; l++) {
+									var parallel = courses[l];
+									if(parallel.id == course.parallels[k]) {
+										parallel.parallelCourses--;
+										parallel.negative[course.id] = 0;
+									}
+								}
 							}
 							break;
 						}
@@ -277,10 +270,6 @@ var sched = {
 					classroom.appendChild(document.createTextNode(course.classroom));
 				}
 			}
-
-			var timeslot = course.timeslot.begin.hour+'h'+course.timeslot.begin.minute;
-			timeslot += ' - '+course.timeslot.end.hour+'h'+course.timeslot.end.minute;
-			element.setAttribute('data-dev-timeslot', timeslot);
 
 			return element;
 		}
