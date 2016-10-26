@@ -33,6 +33,7 @@
 	</div>
 	<div class="filters"></div>
 </form>
+<?php /*
 <?php if($quote !== null): ?>
 	<div class="quote">
 		<div class="wrapper">
@@ -40,6 +41,7 @@
 		</div>
 	</div>
 <?php endif; ?>
+*/ ?>
 
 <main class="sched">
 	<section class="hours">

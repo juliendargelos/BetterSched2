@@ -246,6 +246,76 @@ var pageSched = {
 			this.loadFilters();
 		}
 	},
+	quote: {
+		element: null,
+		sibling: document.getElementsByClassName('sched')[0],
+		get parent() {
+			return this.sibling.parentNode;
+		},
+		get expiration() {
+			var expiration = new Date();
+			expiration.setDate(expiration.getDate() + 1);
+			return expiration.getTime();
+		},
+		request: new Request('/quote/current'),
+		get: function(callback) {
+			var stored = local.get('quote');
+			if(stored !== null) callback(stored, true);
+
+			this.request.success(function(response) {
+				if(response.status) {
+					if(response.quote !== null) callback(response.quote);
+					local.set('quote', response.quote, null, this.expiration);
+				}
+			}).send();
+		},
+		append: function(quote, stored) {
+			if(this.element == null) {
+				this.element = this.create(quote, stored);
+				this.parent.insertBefore(this.element, this.sibling);
+			}
+			else {
+				this.element.innerHTML = '';
+				this.element.appendChild(this.content(quote));
+			}
+		},
+		create: function(quote, stored) {
+			var element = document.createElement('div');
+			element.className = 'quote'+(stored ? ' static' : '');
+
+			element.appendChild(this.content(quote));
+
+			return element;
+		},
+		content: function(quote) {
+			var wrapper = document.createElement('div');
+			wrapper.className = 'wrapper';
+
+			var content = document.createElement('span');
+			content.className = 'content';
+
+			var author = document.createElement('span');
+			author.className = 'author';
+
+			content.appendChild(document.createTextNode(quote.content));
+			author.appendChild(document.createTextNode(quote.author === null ? 'Anonyme' : quote.author));
+
+			wrapper.appendChild(content);
+			wrapper.appendChild(document.createTextNode(' — '));
+			wrapper.appendChild(author);
+
+			return wrapper;
+		},
+		init: function() {
+			var self = this;
+
+			this.request.json = true;
+
+			this.get(function(quote, stored) {
+				self.append(quote, stored);
+			});
+		}
+	},
 	get: function(year, week, group, callback) {
 		var self = this;
 
@@ -295,6 +365,7 @@ var pageSched = {
 
 		this.message.init();
 		this.form.init();
+		this.quote.init();
 
 		this.onresize(true);
 		this.update();

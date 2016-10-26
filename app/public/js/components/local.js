@@ -3,11 +3,12 @@ var local = {
 	get available() {
 		return typeof localStorage === 'object' && localStorage !== null;
 	},
-	serialize: function(data, lifetime) {
+	serialize: function(data, lifetime, expiration) {
 		return JSON.stringify({
 			value: data,
 			timestamp: (new Date).getTime(),
-			lifetime: typeof lifetime == 'number' ? lifetime : this.lifetime
+			lifetime: typeof lifetime == 'number' ? lifetime : this.lifetime,
+			expiration: typeof expiration == 'number' ? expiration : null
 		});
 	},
 	unserialize: function(data) {
@@ -45,7 +46,10 @@ var local = {
 		return localStorage.removeItem(key);
 	},
 	expired: function(data) {
-		return typeof data == 'object' && data !== null ? (new Date).getTime() - data.timestamp >= data.lifetime : true;
+		if(typeof data != 'object' || data === null) return true;
+
+		if(data.expiration === null) return (new Date).getTime() - data.timestamp >= data.lifetime;
+		else return (new Date).getTime() >= data.expiration;
 	},
 	clean: function() {
 		var length = localStorage.length;

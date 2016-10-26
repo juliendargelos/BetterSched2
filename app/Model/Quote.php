@@ -194,5 +194,12 @@
 		protected function setPending($pending) {
 			if($pending !== null) $this->pending = $pending;
 		}
+
+		protected function getPublic() {
+			return  [
+				'author' => $this->getAuthor(),
+				'content' => $this->getContent()
+			];
+		}
 	}
 ?>

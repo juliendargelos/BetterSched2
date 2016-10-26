@@ -3,6 +3,7 @@ get /about page.about
 get /quote page.quote
 post /quote page.quote
 get /quote/$action/$id/$key page.moderateQuote
+get /quote/current quote.current
 get /logout page.logout
 
 post /api/login api.login

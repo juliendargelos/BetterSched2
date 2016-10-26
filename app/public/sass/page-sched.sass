@@ -92,8 +92,13 @@ form
 	font-family: $serif
 	font-size: 12px
 	font-style: italic
+	color: $dark-grey
 	text-align: center
 	line-height: 16px
+	word-break: break-all
+	animation: quote 0.3s 1
+	&.static
+		animation: none
 	.content
 		&::before, &::after
 			content: '"'
@@ -128,4 +133,14 @@ body.loading
 	85%
 		opacity: 0
 	100%
+		opacity: 1
+
+@keyframes quote
+	0%
+		max-height: 0
+		padding: 0
+		opacity: 0
+	100%
+		max-height: 120px
+		padding: 12px 0
 		opacity: 1

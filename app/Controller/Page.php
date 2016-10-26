@@ -55,10 +55,7 @@
 
 			$now = \Date\Date::now();
 
-			Quote::update();
-
 			return new Response([
-				'quote' => Quote::$current,
 				'institute' => User::$current->institute,
 				'hourBegin' => Api::HOUR_BEGIN,
 				'hourEnd' => Api::HOUR_END,
