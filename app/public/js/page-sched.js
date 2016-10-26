@@ -8,7 +8,6 @@
 // @import components/standalone
 // @import components/links
 // @import components/RegParser
-// @import components/cookies
 // @import components/local
 
 var pageSched = {
@@ -17,6 +16,7 @@ var pageSched = {
 	days: document.getElementsByClassName('days')[0],
 	breakpoint: 1060,
 	mobile: false,
+	weekParamLifetime: 300000,
 	message: {
 		element: document.createElement('span'),
 		all: [
@@ -195,13 +195,13 @@ var pageSched = {
 					var cs = {};
 					for(var name in filters) cs[name] = document.getElementById(this.idForFilter(name)).value;
 
-					cookies.set('filters', JSON.stringify(cs));
+					local.set('filters', JSON.stringify(cs));
 				}
 			}
 		},
 		loadFilters: function() {
 			try {
-				var filters = JSON.parse(cookies.get('filters'));
+				var filters = JSON.parse(local.get('filters'));
 			}
 			catch(e) {}
 
@@ -232,6 +232,16 @@ var pageSched = {
 				select.on('change', this.onchange);
 			}
 
+			var week = local.get('week');
+			if(week !== null) {
+				var weekOptions = this.inputs.week.getElementsByTagName('option');
+				for(var i = 0; i < weekOptions.length; i++) {
+					var weekOption = weekOptions[i];
+					if(weekOption.value == week) weekOption.setAttribute('selected', true);
+					else weekOption.removeAttribute('selected');
+				}
+			}
+
 			this.update();
 			this.loadFilters();
 		}
@@ -248,6 +258,7 @@ var pageSched = {
 				sched.constructor.insert(schedule.days);
 				self.onresize();
 				if(self.form.week == api.defaultWeek && self.mobile) self.swipe.page = api.defaultDay - 1;
+				local.set('week', self.form.week, self.weekParamLifetime)
 				callback();
 			}
 			else {
