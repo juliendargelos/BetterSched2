@@ -2,8 +2,17 @@
 	background: $thin-grey url('/assets/grid.svg')
 	background-position: 0 $sched-day-name-height
 	padding: 0 0 10px 0
+	position: relative
 	display: flex
 	user-select: none
+	&::before
+		content: ''
+		background: $thin-grey
+		width: 100%
+		height: $sched-day-name-height
+		z-index: 0
+		position: absolute
+		display: block
 	.hour
 		width: 100%
 		height: $sched-hour-height+2px
@@ -12,7 +21,7 @@
 			height: $sched-hour-height
 	.hours
 		width: $sched-hours-width
-		border-top: $sched-day-name-height solid $thin-grey
+		padding-top: $sched-day-name-height
 		flex-grow: 0
 		flex-shrink: 0
 		.hour
@@ -43,12 +52,11 @@
 		flex-grow: 10
 		display: flex
 		.day
-			//margin-top: -$sched-day-name-height
+			z-index: 1
 			box-sizing: border-box
 			flex-shrink: 0
 			flex-grow: 0
 			> .name
-				background: $thin-grey
 				height: $sched-day-name-height
 				padding-right: $sched-hours-width
 				display: block
