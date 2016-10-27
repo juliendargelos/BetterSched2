@@ -86,7 +86,7 @@
 
 								$author = $post->author !== null && $post->author != '' ? trim($post->author) : null;
 								$email = $post->email;
-								$content = trim($content, " \n\"«»");
+								$content = trim($post->content, " \n\"«»");
 
 								$quote = new Quote([
 									'author' => $author,
