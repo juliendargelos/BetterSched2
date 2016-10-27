@@ -249,6 +249,7 @@ var pageSched = {
 	quote: {
 		element: null,
 		sibling: document.getElementsByClassName('sched')[0],
+		request: new Request('/quote/current'),
 		get parent() {
 			return this.sibling.parentNode;
 		},
@@ -257,15 +258,17 @@ var pageSched = {
 			expiration.setDate(expiration.getDate() + 1);
 			return expiration.getTime();
 		},
-		request: new Request('/quote/current'),
 		get: function(callback) {
 			var stored = local.get('quote');
 			if(stored !== null) callback(stored, true);
 
 			this.request.success(function(response) {
 				if(response.status) {
-					if(response.quote !== null) callback(response.quote);
-					local.set('quote', response.quote, null, this.expiration);
+					if(response.quote !== null) {
+						callback(response.quote);
+						local.set('quote', response.quote, null, this.expiration);
+					}
+					else local.remove('quote');
 				}
 			}).send();
 		},
@@ -301,7 +304,7 @@ var pageSched = {
 			author.appendChild(document.createTextNode(quote.author === null ? 'Anonyme' : quote.author));
 
 			wrapper.appendChild(content);
-			wrapper.appendChild(document.createTextNode(' — '));
+			wrapper.innerHTML += '&nbsp;—&nbsp;';
 			wrapper.appendChild(author);
 
 			return wrapper;

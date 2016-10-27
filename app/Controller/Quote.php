@@ -7,10 +7,11 @@
 	class Quote extends Controller {
 		public function current() {
 			\Model\Quote::update();
+			$quote = \Model\Quote::$current;
 
 			return new Json([
 				'status' => true,
-				'quote' => \Model\Quote::$current->public
+				'quote' => $quote instanceof \Model\Quote ? $quote->public : null
 			]);
 		}
 	}
