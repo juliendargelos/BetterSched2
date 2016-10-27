@@ -86,8 +86,7 @@
 
 								$author = $post->author !== null && $post->author != '' ? trim($post->author) : null;
 								$email = $post->email;
-								$content = preg_replace('/^\s*["«]\s*"/', '', $post->content);
-								$content = preg_replace('/\s*["»]\s*$/', '', $post->content);
+								$content = trim($content, " \n\"«»");
 
 								$quote = new Quote([
 									'author' => $author,
