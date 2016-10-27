@@ -208,15 +208,17 @@ var pageSched = {
 			if(typeof filters == 'object' && filters !== null) {
 				for(var name in filters) {
 					var element = document.getElementById(this.idForFilter(name));
-					var options = element.getElementsByTagName('option');
-					var selected = false;
+					if(element !== null) {
+						var options = element.getElementsByTagName('option');
+						var selected = false;
 
-					for(var i = 0; i < options.length && !selected; i++) {
-						var option = options[i];
+						for(var i = 0; i < options.length && !selected; i++) {
+							var option = options[i];
 
-						if(option.getAttribute('value') == filters[name]) {
-							option.setAttribute('selected', true);
-							selected = true;
+							if(option.getAttribute('value') == filters[name]) {
+								option.setAttribute('selected', true);
+								selected = true;
+							}
 						}
 					}
 				}
