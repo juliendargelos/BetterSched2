@@ -302,14 +302,33 @@ var pageSched = {
 			var author = document.createElement('span');
 			author.className = 'author';
 
-			content.appendChild(document.createTextNode(quote.content));
-			author.appendChild(document.createTextNode(quote.author === null ? 'Anonyme' : quote.author));
+			content.innerHTML = this.cleaner.htmlFor(quote.content);
+			author.innerHTML = quote.author === null ? 'Anonyme' : this.cleaner.htmlFor(quote.author);
 
 			wrapper.appendChild(content);
 			wrapper.innerHTML += '&nbsp;—&nbsp;';
 			wrapper.appendChild(author);
 
 			return wrapper;
+		},
+		cleaner: {
+			escape: function(string) {
+				return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+			},
+			unbreakPunctuation: function(string) {
+				string = string.replace(/\s([\?!:;])/g, '&nbsp;$1');
+				string = string.replace(/\s-/g, '&nbsp;-');
+				string = string.replace(/-\s/g, '-&nbsp;');
+				string = string.replace(/-/g, '&#8209;');
+
+				return string;
+			},
+			htmlFor: function(string) {
+				string = this.escape(string);
+				string = this.unbreakPunctuation(string);
+
+				return string;
+			}
 		},
 		init: function() {
 			var self = this;
