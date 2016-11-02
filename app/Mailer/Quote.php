@@ -45,9 +45,15 @@
 
 		static public function notifyAuthorAboutValidation(\Model\Quote $quote) {
 			if(Mail::add($quote->email)) {
+				$willBePublished = $quote->willBePublished;
+
+				$delay = $willBePublished->min;
+				if($willBePublished->min != $willBePublished->max) $delay .= ' à '.$willBePublished->max;
+				$delay .= ' jour'.($willBePublished->max > 1 ? 's' : '');
+
 				$message = '<p>Salut toi, ta citation sur BetterSched\' a été approuvée !</p>';
 				$message .= '<blockquote>'.$quote->content.'</blockquote>';
-				$message .= '<p>Elle sera postée bientôt, bises.</p>';
+				$message .= '<p>Elle sera publiée dans '.$delay.', bises.</p>';
 
 				$subject = 'Citation approuvée sur BetterSched\'';
 

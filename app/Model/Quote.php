@@ -179,6 +179,24 @@
 			if($published !== null) $this->published = $published;
 		}
 
+		protected function getWillBePublished($quotes = null) {
+			if($quotes === null) $quotes = self::all();
+
+			$willBePublished = [
+				'min' => 0,
+				'max' => 0
+			];
+
+			foreach($quotes as $quote) {
+				$willBePublished['max']++;
+				if(!$quote->pending) $willBePublished['min']++;
+
+				if($quote->id == $this->id) break;
+			}
+
+			return (object) $willBePublished;
+		}
+
 		protected function getKey() {
 			return $this->key;
 		}
