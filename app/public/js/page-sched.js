@@ -24,7 +24,7 @@ var pageSched = {
 			'Non, les cours ne sont pas annulés...',
 			'Ne partez pas ça devrait arriver...',
 			'Profitez-en pour vous servir un café...',
-			'C\'est l\'histoire de Jano Lapin...',
+			'C\'est l\'histoire de Jeannot Lapin...',
 			'L\'temps passe, j\'vois l\'soleil s\'lever, s\'coucher...',
 			'Currently trying to make the world a better place...',
 			'Attention derrière toi...',
