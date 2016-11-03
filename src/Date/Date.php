@@ -5,6 +5,7 @@
 
 	class Date extends Model {
 		const MIDDLE_WEEK = 38;
+		const TIMEZONE = 'Europe/Paris';
 
 		public static $days = [
 			1 => 'lundi',
@@ -33,6 +34,10 @@
 		protected $day;
 		protected $month;
 		protected $year;
+
+		public static function init() {
+			date_default_timezone_set(self::TIMEZONE);
+		}
 
 		public static function now() {
 			$now = new \DateTime('now');
