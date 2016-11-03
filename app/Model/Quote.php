@@ -29,7 +29,7 @@
 
 		public static function update() {
 			$all = self::all();
-			$published =  Date::now()->hash;
+			$published = Date::now()->hash;
 			$save = false;
 			foreach($all as $id => $quote) {
 				if($quote->pending === false) {
