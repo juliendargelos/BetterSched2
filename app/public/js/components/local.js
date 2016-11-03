@@ -28,12 +28,13 @@ var local = {
 	},
 	get: function(key) {
 		var data = this.data(key);
-		return this.update(data)
+		return this.update(key);
 	},
 	data: function(key) {
 		return this.unserialize(localStorage.getItem(key));
 	},
-	update: function(data) {
+	update: function(key) {
+		var data = this.data(key);
 		if(data === null) return null;
 
 		if(this.expired(data)) {

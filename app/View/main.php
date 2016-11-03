@@ -22,11 +22,14 @@
 		<meta name="msapplication-TileColor" content="#e74c3c">
 		<meta name="msapplication-TileImage" content="/assets/meta/mstile-144x144.png">
 
-		<link href="/assets/meta/startup-1242x2148.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image">
-		<link href="/assets/meta/startup-750x1294.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-		<link href="/assets/meta/startup-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-		<link href="/assets/meta/startup-640x920.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-		<link href="/assets/meta/startup-320x460.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+		<!--
+			<link href="/assets/meta/startup-320x460.png" media="(device-width: 320px)" rel="apple-touch-startup-image">
+	        <link href="/assets/meta/startup-640x920.png" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+	        <link href="/assets/meta/startup-768x1004.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
+	        <link href="/assets/meta/startup-748x1024.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
+	        <link href="/assets/meta/startup-1536x2008.png" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+	        <link href="/assets/meta/startup-2048x1496.png" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+		-->
 
 		<link rel="icon" type="image/png" href="/assets/meta/favicon-192x192.png" sizes="192x192">
 		<link rel="icon" type="image/png" href="/assets/meta/favicon-160x160.png" sizes="160x160">
@@ -40,7 +43,7 @@
 		<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/meta/apple-touch-icon-152x152.png">
 		<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/assets/meta/apple-touch-icon-180x180.png">
 
-		<link rel="manifest" href="/assets/meta/manifest.json">
+		<link rel="manifest" href="/manifest.json">
 
 		<meta property="og:title" content="BetterSched'">
 		<meta property="og:type" content="website">

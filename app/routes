@@ -11,4 +11,5 @@ get /api/logged api.logged
 get /api/logout api.logout
 get /api/sched/$year/$week/$group api.sched
 
-get /robots.txt seo.robots
+get /robots.txt statics.robots
+get /manifest.json statics.manifest
