@@ -28,8 +28,10 @@ var links = {
 	init: function() {
 		for(var i = 0; i < this.elements.length; i++) {
 			var element = this.elements[i];
-			element.on('click', this.onclick(element));
-			element.on('touchstart', this.onclick(element));
+			if(document.getAttribute('data-external') === null) {
+				element.on('click', this.onclick(element));
+				element.on('touchstart', this.onclick(element));
+			}
 		}
 	}
 };
