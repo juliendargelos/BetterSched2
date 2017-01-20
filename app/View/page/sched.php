@@ -11,7 +11,6 @@
 	<?= $hey[array_rand($hey)]; ?>
 </p>
 <?= partial('header') ?>
-<?= partial('information') ?>
 <form>
 	<div>
 		<?=
