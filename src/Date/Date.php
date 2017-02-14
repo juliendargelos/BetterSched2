@@ -79,6 +79,7 @@
 
 		public static function weeks($year = null) {
 			if($year === null) $year = self::now()->year;
+			$current_year = self::now()->year;
 			$weeks = [];
 
 			for($w = 1; $w <= 53; $w++) {
@@ -88,7 +89,7 @@
 
 				$time = strtotime('1 January '.$y, time());
 				$day = date('w', $time);
-				$time += ((7*$w) + 1 - $day)*24*3600;
+				$time += ((7*$w) + 1 - $day - ($year == $current_year ? 0 : 7))*24*3600;
 				$week['begin'] = date('j/m/Y', $time);
 				$time += 6*24*3600;
 				$week['end'] = date('j/m/Y', $time);
