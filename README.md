@@ -3,8 +3,7 @@
 ---
 
 <p align="right"><a href="https://codeclimate.com/github/juliendargelos/BetterSched2"><img src="https://codeclimate.com/github/juliendargelos/BetterSched2/badges/gpa.svg" alt="Code Climate"/></a></p>
-> *BetterSched' fournit une interface élégante et intuitive aux étudiants de Bordeaux qui souhaitent
-> consulter leur emploi du temps.*
+<blockquote><em>BetterSched' propose une interface élégante et intuitive aux étudiants de Bordeaux qui souhaitent consulter leur emploi du temps.</em></blockquote>
 
 <a href="https://github.com/juliendargelos/BetterSched2/blob/master/preview/desktop-login.png"><img width="441" src="https://raw.githubusercontent.com/juliendargelos/BetterSched2/master/preview/desktop-login.png" alt="BetterSched' login screen"/></a>
 <a href="https://github.com/juliendargelos/BetterSched2/blob/master/preview/desktop-schedule.png"><img width="441" src="https://raw.githubusercontent.com/juliendargelos/BetterSched2/master/preview/desktop-schedule.png" alt="BetterSched' schedule screen"/></a>
